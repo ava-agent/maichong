@@ -1,0 +1,396 @@
+/* --- 全局与基础样式 --- */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+:root {
+    --primary-color: #4F46E5; /* 主题色 - 深紫罗兰色 */
+    --primary-light: #EEF2FF; /* 主题浅色 */
+    --secondary-color: #10B981; /* 辅助色 - 绿色，用于确认 */
+    --warning-color: #F59E0B; /* 警告/提案色 - 琥珀色 */
+    --danger-color: #EF4444;  /* 危险/拒绝色 - 红色 */
+    --text-primary: #1F2937; /* 主要文字颜色 */
+    --text-secondary: #6B7280; /* 次要文字颜色 */
+    --bg-color: #F9FAFB; /* 背景色 */
+    --card-bg: #FFFFFF; /* 卡片背景色 */
+    --border-color: #E5E7EB; /* 边框颜色 */
+    --font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#app-container {
+    max-width: 480px; /* 模拟手机屏幕 */
+    margin: auto;
+    background-color: white;
+    min-height: 100vh;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+/* --- 顶部导航栏 --- */
+#main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-color);
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+}
+
+.timeline-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.participants {
+    display: flex;
+    align-items: center;
+    margin-left: 16px;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid white;
+    margin-left: -10px;
+    object-fit: cover;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background-color: var(--border-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.avatar:first-child { margin-left: 0; }
+.avatar.more {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+}
+
+.header-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+    padding: 4px;
+}
+.header-button:hover { color: var(--primary-color); }
+
+/* --- 时间线 --- */
+#timeline {
+    padding: 24px 20px;
+    position: relative;
+}
+
+.timeline-axis {
+    position: absolute;
+    left: 44px; /* (时间区域宽度 72px / 2) + padding 8px */
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: var(--border-color);
+    z-index: 0;
+}
+
+.timeline-node {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.date-separator {
+    text-align: center;
+    margin: 32px 0;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+.date-separator .date-label {
+    background-color: var(--bg-color);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+
+/* --- 脉冲卡片 --- */
+.pulse-card {
+    display: flex;
+    align-items: flex-start;
+    padding-left: 8px; /* 轴线和卡片之间的间距 */
+    position: relative;
+}
+
+.card-time {
+    flex-shrink: 0;
+    width: 72px;
+    text-align: right;
+    padding-right: 16px;
+    color: var(--text-primary);
+}
+.card-time .time-value {
+    font-size: 18px;
+    font-weight: 500;
+    display: block;
+}
+.card-time .time-period {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+.pulse-card.all-day .card-time .time-value { font-size: 16px; }
+
+
+.card-content {
+    flex-grow: 1;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 12px 16px;
+    position: relative;
+}
+
+.card-title {
+    margin: 0 0 4px 0;
+    font-size: 16px;
+    font-weight: 500;
+}
+.card-details {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* 卡片状态指示器 */
+.card-status {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+.status-confirmed { background-color: var(--secondary-color); }
+.status-proposal { background-color: var(--warning-color); }
+.status-tentative { background-color: var(--border-color); }
+
+/* 卡片交互元素 */
+.card-interactions {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+.comment-count {
+    margin-right: 8px;
+}
+.interaction-avatars {
+    display: flex;
+}
+.avatar-sm {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid white;
+    margin-left: -6px;
+}
+
+/* 提案卡片样式 */
+.pulse-card.proposal .card-content {
+    background-color: #FFFBEB; /* 琥珀色浅背景 */
+    border-color: var(--warning-color);
+}
+.proposal-actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+}
+.proposal-actions button {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.btn-approve {
+    background-color: var(--secondary-color);
+    color: white;
+}
+.btn-decline {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+
+/* --- AI 助手 --- */
+#ai-fab {
+    position: fixed;
+    bottom: 30px;
+    right: 50%;
+    transform: translateX(50%);
+    margin-right: -190px; /* (480px/2) - 50px */
+    background: linear-gradient(135deg, #6D28D9, #4F46E5);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    width: 100px;
+    height: 56px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    cursor: pointer;
+    z-index: 20;
+    transition: transform 0.2s ease-in-out;
+}
+#ai-fab:hover {
+    transform: translateX(50%) scale(1.05);
+}
+#ai-fab svg {
+    display: none; /* 根据产品计划书，它是一个聪明的助手，核心是对话，所以用文字代替图标 */
+}
+
+/* AI 对话框 */
+#ai-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* 从底部弹出 */
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+#ai-modal.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+#ai-modal-content {
+    background: white;
+    width: 100%;
+    max-width: 480px;
+    padding: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+}
+#ai-modal.hidden #ai-modal-content {
+    transform: translateY(100%);
+}
+
+#close-modal-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--border-color);
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 20px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    line-height: 26px;
+    text-align: center;
+}
+
+.ai-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+.ai-title {
+    font-size: 18px;
+    margin: 0;
+}
+.ai-slogan {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 4px 0 0 0;
+}
+
+.ai-chat-box {
+    height: 150px;
+    overflow-y: auto;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.chat-message {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 18px;
+    font-size: 14px;
+}
+.chat-message.user {
+    background: var(--primary-light);
+    color: var(--primary-color);
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+.chat-message.ai {
+    background: var(--bg-color);
+    color: var(--text-primary);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+
+.ai-input-area {
+    display: flex;
+    gap: 8px;
+}
+#ai-input {
+    flex-grow: 1;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-family: var(--font-family);
+}
+#ai-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+#ai-send-button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 0 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+#ai-send-button:hover {
+    opacity: 0.9;
+}
