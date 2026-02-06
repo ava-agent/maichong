@@ -1,0 +1,79 @@
+name: maichong
+description: AI-native life rhythm coordination assistant.
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  # Flutter SDK
+  flutter:
+    sdk: flutter
+
+  # 状态管理
+  flutter_riverpod: ^3.0.0
+  riverpod_annotation: ^3.0.0
+
+  # 路由
+  go_router: ^14.0.0
+
+  # 代码生成
+  freezed_annotation: ^2.4.0
+  json_annotation: ^4.9.0
+
+  # 本地存储
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  path_provider: ^2.1.0
+
+  # 网络请求 (Week 2使用)
+  dio: ^5.4.0
+
+  # Supabase (Week 2使用)
+  supabase_flutter: ^2.0.0
+
+  # AI服务 (Week 3使用)
+  openai_dart: ^1.0.0
+
+  # UI工具
+  flutter_svg: ^2.0.0
+  cached_network_image: ^3.3.0
+
+  # 工具库
+  intl: ^0.19.0
+  uuid: ^4.0.0
+  url_launcher: ^6.2.0
+
+  # Web特定
+  web: ^1.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # 代码生成
+  build_runner: ^2.4.0
+  freezed: ^2.4.0
+  json_serializable: ^6.7.0
+  riverpod_generator: ^3.0.0
+  riverpod_lint: ^3.0.0
+
+  # 代码质量
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter-Bold.ttf
+          weight: 700

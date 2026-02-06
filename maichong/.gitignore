@@ -1,0 +1,23 @@
+# Misc
+*.log
+.env
+
+# Flutter/Dart
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+
+# IDE
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Generated files
+*.g.dart
+*.freezed.dart

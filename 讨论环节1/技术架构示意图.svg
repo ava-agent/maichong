@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="1400" height="900" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <!-- 渐变定义 -->
+    <linearGradient id="headerGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1A237E;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3949AB;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 技术层级渐变 -->
+    <linearGradient id="frontendBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E3F2FD;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#BBDEFB;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="backendBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#F3E5F5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E1BEE7;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="aiBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF3E0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFE0B2;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="infraBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8F5E8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C8E6C9;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 组件渐变 -->
+    <linearGradient id="componentBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F5F5F5;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 阴影效果 -->
+    <filter id="shadowEffect" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="4" dy="4" stdDeviation="5" flood-color="#000" flood-opacity="0.1" />
+    </filter>
+
+    <!-- 箭头标记 -->
+    <marker id="techArrow" markerWidth="12" markerHeight="8" refX="11" refY="4" orient="auto">
+      <polygon points="0 0, 12 4, 0 8" fill="#666" />
+    </marker>
+
+    <!-- 数据流箭头 -->
+    <marker id="dataFlow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2196F3" />
+    </marker>
+  </defs>
+
+  <!-- 标题 -->
+  <g id="header">
+    <rect x="50" y="20" width="1300" height="70" rx="15" fill="url(#headerGradient)" stroke="#0D47A1" stroke-width="2"/>
+    <text x="700" y="60" text-anchor="middle" font-size="28" font-weight="bold" fill="white">🏗️ 脉冲产品家族 - 技术架构示意图</text>
+  </g>
+
+  <!-- 前端层 -->
+  <g id="frontend-layer" transform="translate(50, 110)">
+    <rect width="1300" height="140" rx="15" fill="url(#frontendBg)" stroke="#1976D2" stroke-width="2" filter="url(#shadowEffect)"/>
+    <text x="30" y="35" fill="#0D47A1" font-size="20" font-weight="bold">📱 前端层 (Frontend)</text>
+    <text x="30" y="55" fill="#1976D2" font-size="14">跨平台统一开发框架</text>
+
+    <!-- Flutter核心 -->
+    <g transform="translate(50, 70)">
+      <rect x="0" y="0" width="200" height="50" rx="10" fill="url(#componentBg)" stroke="#1976D2" stroke-width="2"/>
+      <text x="20" y="20" fill="#0D47A1" font-size="16" font-weight="bold">🐦 Flutter</text>
+      <text x="20" y="38" fill="#1976D2" font-size="12">Dart语言 + Widget框架</text>
+    </g>
+
+    <!-- 产品应用 -->
+    <g transform="translate(280, 70)">
+      <rect x="0" y="0" width="150" height="50" rx="10" fill="#E8F5E8" stroke="#2E7D32" stroke-width="1"/>
+      <text x="15" y="20" fill="#1B5E20" font-size="14" font-weight="bold">💓 脉冲App</text>
+      <text x="15" y="38" fill="#2E7D32" font-size="10">完整功能版本</text>
+
+      <rect x="170" y="0" width="150" height="50" rx="10" fill="#FCE4EC" stroke="#C2185B" stroke-width="1"/>
+      <text x="185" y="20" fill="#880E4F" font-size="14" font-weight="bold">💑 情侣助手</text>
+      <text x="185" y="38" fill="#C2185B" font-size="10">垂直出行场景</text>
+
+      <rect x="340" y="0" width="150" height="50" rx="10" fill="#E3F2FD" stroke="#1976D2" stroke-width="1"/>
+      <text x="355" y="20" fill="#0D47A1" font-size="14" font-weight="bold">📅 轻日程</text>
+      <text x="355" y="38" fill="#1976D2" font-size="10">极简协作工具</text>
+    </g>
+
+    <!-- 部署目标 -->
+    <g transform="translate(850, 70)">
+      <text x="0" y="15" fill="#666" font-size="14" font-weight="bold">📦 部署目标：</text>
+      <text x="0" y="35" fill="#666" font-size="12">iOS App Store + Google Play + Web</text>
+      <text x="0" y="50" fill="#666" font-size="12">单套代码，95%+ 代码复用率</text>
+    </g>
+  </g>
+
+  <!-- 后端层 -->
+  <g id="backend-layer" transform="translate(50, 270)">
+    <rect width="1300" height="140" rx="15" fill="url(#backendBg)" stroke="#7B1FA2" stroke-width="2" filter="url(#shadowEffect)"/>
+    <text x="30" y="35" fill="#4A148C" font-size="20" font-weight="bold">⚙️ 后端层 (Backend)</text>
+    <text x="30" y="55" fill="#7B1FA2" font-size="14">BaaS服务 + 实时数据库</text>
+
+    <!-- Supabase核心 -->
+    <g transform="translate(50, 70)">
+      <rect x="0" y="0" width="200" height="50" rx="10" fill="url(#componentBg)" stroke="#7B1FA2" stroke-width="2"/>
+      <text x="20" y="20" fill="#4A148C" font-size="16" font-weight="bold">🗄️ Supabase</text>
+      <text x="20" y="38" fill="#7B1FA2" font-size="12">PostgreSQL + Auth + Realtime</text>
+    </g>
+
+    <!-- 核心服务 -->
+    <g transform="translate(280, 70)">
+      <rect x="0" y="0" width="150" height="50" rx="10" fill="url(#componentBg)" stroke="#7B1FA2" stroke-width="1"/>
+      <text x="15" y="20" fill="#4A148C" font-size="14" font-weight="bold">🔐 用户认证</text>
+      <text x="15" y="38" fill="#7B1FA2" font-size="10">OAuth + JWT</text>
+
+      <rect x="170" y="0" width="150" height="50" rx="10" fill="url(#componentBg)" stroke="#7B1FA2" stroke-width="1"/>
+      <text x="185" y="20" fill="#4A148C" font-size="14" font-weight="bold">📊 数据存储</text>
+      <text x="185" y="38" fill="#7B1FA2" font-size="10">结构化数据</text>
+
+      <rect x="340" y="0" width="150" height="50" rx="10" fill="url(#componentBg)" stroke="#7B1FA2" stroke-width="1"/>
+      <text x="355" y="20" fill="#4A148C" font-size="14" font-weight="bold">⚡ 实时同步</text>
+      <text x="355" y="38" fill="#7B1FA2" font-size="10">WebSocket连接</text>
+
+      <rect x="510" y="0" width="150" height="50" rx="10" fill="url(#componentBg)" stroke="#7B1FA2" stroke-width="1"/>
+      <text x="525" y="20" fill="#4A148C" font-size="14" font-weight="bold">🔍 搜索查询</text>
+      <text x="525" y="38" fill="#7B1FA2" font-size="10">全文检索API</text>
+    </g>
+
+    <!-- 优势说明 -->
+    <g transform="translate(850, 70)">
+      <text x="0" y="15" fill="#666" font-size="14" font-weight="bold">🚀 核心优势：</text>
+      <text x="0" y="35" fill="#666" font-size="12">• 免费额度充足，降低启动成本</text>
+      <text x="0" y="50" fill="#666" font-size="12">• 开箱即用的实时协作能力</text>
+    </g>
+  </g>
+
+  <!-- AI服务层 -->
+  <g id="ai-layer" transform="translate(50, 430)">
+    <rect width="1300" height="140" rx="15" fill="url(#aiBg)" stroke="#F57C00" stroke-width="2" filter="url(#shadowEffect)"/>
+    <text x="30" y="35" fill="#E65100" font-size="20" font-weight="bold">🤖 AI服务层 (AI Services)</text>
+    <text x="30" y="55" fill="#F57C00" font-size="14">大语言模型 + 智能分析</text>
+
+    <!-- AI提供商 -->
+    <g transform="translate(50, 70)">
+      <rect x="0" y="0" width="180" height="50" rx="10" fill="url(#componentBg)" stroke="#F57C00" stroke-width="2"/>
+      <text x="20" y="20" fill="#E65100" font-size="16" font-weight="bold">🎯 DeepSeek API</text>
+      <text x="20" y="38" fill="#F57C00" font-size="12">开源LLM，免费额度</text>
+
+      <rect x="200" y="0" width="180" height="50" rx="10" fill="url(#componentBg)" stroke="#F57C00" stroke-width="1"/>
+      <text x="220" y="20" fill="#E65100" font-size="14" font-weight="bold">🔄 备用方案</text>
+      <text x="220" y="38" fill="#F57C00" font-size="10">OpenAI/Claude等</text>
+    </g>
+
+    <!-- AI能力 -->
+    <g transform="translate(420, 70)">
+      <rect x="0" y="0" width="140" height="50" rx="10" fill="url(#componentBg)" stroke="#F57C00" stroke-width="1"/>
+      <text x="15" y="20" fill="#E65100" font-size="14" font-weight="bold">💬 自然语言处理</text>
+      <text x="15" y="38" fill="#F57C00" font-size="9">文本解析/生成</text>
+
+      <rect x="160" y="0" width="140" height="50" rx="10" fill="url(#componentBg)" stroke="#F57C00" stroke-width="1"/>
+      <text x="175" y="20" fill="#E65100" font-size="14" font-weight="bold">📅 智能排期</text>
+      <text x="175" y="38" fill="#F57C00" font-size="9">时间分析优化</text>
+
+      <rect x="320" y="0" width="140" height="50" rx="10" fill="url(#componentBg)" stroke="#F57C00" stroke-width="1"/>
+      <text x="335" y="20" fill="#E65100" font-size="14" font-weight="bold">💕 情感分析</text>
+      <text x="335" y="38" fill="#F57C00" font-size="9">用户偏好识别</text>
+
+      <rect x="480" y="0" width="140" height="50" rx="10" fill="url(#componentBg)" stroke="#F57C00" stroke-width="1"/>
+      <text x="495" y="20" fill="#E65100" font-size="14" font-weight="bold">🎨 内容生成</text>
+      <text x="495" y="38" fill="#F57C00" font-size="9">描述文案建议</text>
+    </g>
+
+    <!-- 集成方式 -->
+    <g transform="translate(950, 70)">
+      <text x="0" y="15" fill="#666" font-size="14" font-weight="bold">🔗 集成方式：</text>
+      <text x="0" y="35" fill="#666" font-size="12">• RESTful API调用</text>
+      <text x="0" y="50" fill="#666" font-size="12">• 异步处理，缓存优化</text>
+    </g>
+  </g>
+
+  <!-- 基础设施层 -->
+  <g id="infra-layer" transform="translate(50, 590)">
+    <rect width="1300" height="140" rx="15" fill="url(#infraBg)" stroke="#2E7D32" stroke-width="2" filter="url(#shadowEffect)"/>
+    <text x="30" y="35" fill="#1B5E20" font-size="20" font-weight="bold">🏭 基础设施层 (Infrastructure)</text>
+    <text x="30" y="55" fill="#2E7D32" font-size="14">云服务 + CDN + 监控</text>
+
+    <!-- 云服务 -->
+    <g transform="translate(50, 70)">
+      <rect x="0" y="0" width="160" height="50" rx="10" fill="url(#componentBg)" stroke="#2E7D32" stroke-width="2"/>
+      <text x="20" y="20" fill="#1B5E20" font-size="16" font-weight="bold">☁️ Vercel</text>
+      <text x="20" y="38" fill="#2E7D32" font-size="12">前端部署平台</text>
+
+      <rect x="180" y="0" width="160" height="50" rx="10" fill="url(#componentBg)" stroke="#2E7D32" stroke-width="1"/>
+      <text x="200" y="20" fill="#1B5E20" font-size="14" font-weight="bold">🗄️ Supabase Cloud</text>
+      <text x="200" y="38" fill="#2E7D32" font-size="10">全球CDN加速</text>
+    </g>
+
+    <!-- 第三方服务 -->
+    <g transform="translate(380, 70)">
+      <rect x="0" y="0" width="140" height="50" rx="10" fill="url(#componentBg)" stroke="#2E7D32" stroke-width="1"/>
+      <text x="15" y="20" fill="#1B5E20" font-size="14" font-weight="bold">📱 App Store</text>
+      <text x="15" y="38" fill="#2E7D32" font-size="9">iOS分发</text>
+
+      <rect x="160" y="0" width="140" height="50" rx="10" fill="url(#componentBg)" stroke="#2E7D32" stroke-width="1"/>
+      <text x="175" y="20" fill="#1B5E20" font-size="14" font-weight="bold">🤖 Google Play</text>
+      <text x="175" y="38" fill="#2E7D32" font-size="9">Android分发</text>
+
+      <rect x="320" y="0" width="140" height="50" rx="10" fill="url(#componentBg)" stroke="#2E7D32" stroke-width="1"/>
+      <text x="335" y="20" fill="#1B5E20" font-size="14" font-weight="bold">📊 应用分析</text>
+      <text x="335" y="38" fill="#2E7D32" font-size="9">Firebase Analytics</text>
+    </g>
+
+    <!-- 监控运维 -->
+    <g transform="translate(950, 70)">
+      <text x="0" y="15" fill="#666" font-size="14" font-weight="bold">🔍 监控运维：</text>
+      <text x="0" y="35" fill="#666" font-size="12">• 错误追踪和性能监控</text>
+      <text x="0" y="50" fill="#666" font-size="12">• 用户行为分析和热力图</text>
+    </g>
+  </g>
+
+  <!-- 数据流向 -->
+  <g id="data-flows">
+    <!-- 前端到后端 -->
+    <path d="M 350 250 L 350 270" stroke="#2196F3" stroke-width="3" marker-end="url(#dataFlow)"/>
+    <text x="360" y="265" fill="#1976D2" font-size="12">API调用</text>
+
+    <!-- 后端到AI -->
+    <path d="M 650 410 L 650 430" stroke="#2196F3" stroke-width="3" marker-end="url(#dataFlow)"/>
+    <text x="660" y="425" fill="#1976D2" font-size="12">AI请求</text>
+
+    <!-- AI到前端 -->
+    <path d="M 350 570 L 350 430 L 350 410" stroke="#FF9800" stroke-width="3" marker-end="url(#dataFlow)"/>
+    <text x="360" y="395" fill="#E65100" font-size="12">智能响应</text>
+
+    <!-- 实时同步 -->
+    <path d="M 750 250 L 750 270" stroke="#4CAF50" stroke-width="3" stroke-dasharray="8,4"/>
+    <text x="760" y="265" fill="#2E7D32" font-size="12">WebSocket</text>
+  </g>
+
+  <!-- 技术选型优势 -->
+  <g id="tech-advantages" transform="translate(50, 760)">
+    <rect width="650" height="100" rx="10" fill="#E8F5E8" stroke="#2E7D32" stroke-width="1"/>
+    <text x="20" y="25" fill="#1B5E20" font-size="16" font-weight="bold">💡 技术选型核心优势：</text>
+    <text x="20" y="45" fill="#2E7D32" font-size="13">• 降低开发复杂度：BaaS服务减少80%后端开发工作</text>
+    <text x="20" y="60" fill="#2E7D32" font-size="13">• 快速产品迭代：Flutter一套代码支持三大平台</text>
+    <text x="20" y="75" fill="#2E7D32" font-size="13">• 成本可控：充分利用免费额度和服务商补贴</text>
+    <text x="20" y="90" fill="#2E7D32" font-size="13">• 技术栈统一：三个产品共享组件和基础设施</text>
+  </g>
+
+  <!-- 扩展性说明 -->
+  <g id="scalability" transform="translate(730, 760)">
+    <rect width="620" height="100" rx="10" fill="#FFF3E0" stroke="#F57C00" stroke-width="1"/>
+    <text x="20" y="25" fill="#E65100" font-size="16" font-weight="bold">📈 扩展性设计：</text>
+    <text x="20" y="45" fill="#E65100" font-size="13">• 模块化架构：各层独立演进，易于功能扩展</text>
+    <text x="20" y="60" fill="#E65100" font-size="13">• API标准化：统一的接口设计，支持多产品复用</text>
+    <text x="20" y="75" fill="#E65100" font-size="13">• 数据兼容：共享用户体系，支持产品间数据迁移</text>
+    <text x="20" y="90" fill="#E65100" font-size="13">• 云原生就绪：轻松支持高并发和全球化部署</text>
+  </g>
+
+  <!-- 开发周期 -->
+  <g id="development-timeline" transform="translate(50, 870)">
+    <rect width="1300" height="80" rx="10" fill="#F3E5F5" stroke="#7B1FA2" stroke-width="1"/>
+    <text x="20" y="25" fill="#4A148C" font-size="16" font-weight="bold">⏰ 开发周期规划：</text>
+
+    <g transform="translate(20, 35)">
+      <rect x="0" y="0" width="150" height="35" rx="8" fill="#E8F5E8" stroke="#2E7D32" stroke-width="1"/>
+      <text x="15" y="18" fill="#1B5E20" font-size="12" font-weight="bold">轻日程 MVP</text>
+      <text x="15" y="33" fill="#2E7D32" font-size="10">3周快速上线</text>
+
+      <rect x="170" y="0" width="150" height="35" rx="8" fill="#FCE4EC" stroke="#C2185B" stroke-width="1"/>
+      <text x="185" y="18" fill="#880E4F" font-size="12" font-weight="bold">情侣助手 MVP</text>
+      <text x="185" y="33" fill="#C2185B" font-size="10">4周垂直优化</text>
+
+      <rect x="340" y="0" width="150" height="35" rx="8" fill="#E3F2FD" stroke="#1976D2" stroke-width="1"/>
+      <text x="355" y="18" fill="#0D47A1" font-size="12" font-weight="bold">脉冲旗舰版</text>
+      <text x="355" y="33" fill="#1976D2" font-size="10">8周功能整合</text>
+
+      <rect x="510" y="0" width="200" height="35" rx="8" fill="#FFF3E0" stroke="#F57C00" stroke-width="1"/>
+      <text x="525" y="18" fill="#E65100" font-size="12" font-weight="bold">技术栈统一优化</text>
+      <text x="525" y="33" fill="#F57C00" font-size="10">持续迭代改进</text>
+    </g>
+  </g>
+</svg>
