@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import '../../../data/repositories/auth_repository.dart';
 import '../../../data/services/storage_service.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -190,6 +192,50 @@ class _SettingsPageState extends State<SettingsPage> {
               );
             },
           ),
+          const SizedBox(height: 8),
+          _SectionHeader(title: '账户'),
+          _SettingsTile(
+            icon: Icons.logout,
+            iconColor: Theme.of(context).colorScheme.error,
+            title: '退出登录',
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () async {
+              final confirm = await showDialog<bool>(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('退出登录'),
+                  content: const Text('确定要退出登录吗？'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: const Text('取消'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      style: TextButton.styleFrom(
+                        foregroundColor: Theme.of(context).colorScheme.error,
+                      ),
+                      child: const Text('退出'),
+                    ),
+                  ],
+                ),
+              );
+              if (confirm == true) {
+                try {
+                  await AuthRepositoryImpl().signOut();
+                  if (mounted) {
+                    context.go('/welcome');
+                  }
+                } catch (e) {
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('退出失败: $e')),
+                    );
+                  }
+                }
+              }
+            },
+          ),
           const SizedBox(height: 32),
         ],
       ),
@@ -224,6 +270,7 @@ class _SettingsTile extends StatelessWidget {
   final String? subtitle;
   final Widget? trailing;
   final VoidCallback? onTap;
+  final Color? iconColor;
 
   const _SettingsTile({
     required this.icon,
@@ -231,6 +278,7 @@ class _SettingsTile extends StatelessWidget {
     this.subtitle,
     this.trailing,
     this.onTap,
+    this.iconColor,
   });
 
   @override
@@ -247,9 +295,10 @@ class _SettingsTile extends StatelessWidget {
             children: [
               Icon(
                 icon,
-                color: onTap != null
-                    ? theme.colorScheme.primary
-                    : theme.colorScheme.onSurface.withOpacity(0.6),
+                color: iconColor ??
+                    (onTap != null
+                        ? theme.colorScheme.primary
+                        : theme.colorScheme.onSurface.withOpacity(0.6)),
               ),
               const SizedBox(width: 16),
               Expanded(

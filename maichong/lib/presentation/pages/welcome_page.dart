@@ -60,9 +60,13 @@ class WelcomePage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               AppButton(
-                text: '了解更多',
+                text: '登录 / 注册',
                 type: AppButtonType.secondary,
                 isFullWidth: true,
+                onPressed: () => context.push('/login'),
+              ),
+              const SizedBox(height: 16),
+              TextButton(
                 onPressed: () {
                   // 显示关于对话框
                   showDialog(
@@ -83,6 +87,7 @@ class WelcomePage extends StatelessWidget {
                     ),
                   );
                 },
+                child: const Text('了解更多'),
               ),
               const SizedBox(height: 24),
               // 版本信息
