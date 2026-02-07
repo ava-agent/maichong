@@ -10,6 +10,8 @@ class AppInput extends StatefulWidget {
   final String? errorText;
   final TextInputType? keyboardType;
   final Widget? suffixIcon;
+  final TextEditingController? controller;
+  final String? Function(String?)? validator;
 
   const AppInput({
     super.key,
@@ -22,6 +24,8 @@ class AppInput extends StatefulWidget {
     this.errorText,
     this.keyboardType,
     this.suffixIcon,
+    this.controller,
+    this.validator,
   });
 
   @override
@@ -30,16 +34,20 @@ class AppInput extends StatefulWidget {
 
 class _AppInputState extends State<AppInput> {
   late TextEditingController _controller;
+  bool _isExternalController = false;
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.value);
+    _isExternalController = widget.controller != null;
+    _controller = widget.controller ?? TextEditingController(text: widget.value);
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    if (!_isExternalController) {
+      _controller.dispose();
+    }
     super.dispose();
   }
 
@@ -55,7 +63,7 @@ class _AppInputState extends State<AppInput> {
           ),
           const SizedBox(height: 8),
         ],
-        TextField(
+        TextFormField(
           controller: _controller,
           obscureText: widget.obscureText,
           keyboardType: widget.keyboardType,
@@ -65,6 +73,7 @@ class _AppInputState extends State<AppInput> {
             suffixIcon: widget.suffixIcon,
           ),
           onChanged: widget.onChanged,
+          validator: widget.validator,
         ),
       ],
     );
