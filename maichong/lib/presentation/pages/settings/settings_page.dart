@@ -18,15 +18,23 @@ class _SettingsPageState extends State<SettingsPage> {
   void initState() {
     super.initState();
     _loadAppInfo();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Load theme preference after dependencies are available
     _loadThemePreference();
   }
 
   Future<void> _loadAppInfo() async {
     try {
       final info = await PackageInfo.fromPlatform();
-      setState(() {
-        _appVersion = '${info.version}+${info.buildNumber}';
-      });
+      if (mounted) {
+        setState(() {
+          _appVersion = '${info.version}+${info.buildNumber}';
+        });
+      }
     } catch (e) {
       // Use default version if loading fails
     }
@@ -34,9 +42,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void _loadThemePreference() {
     final brightness = Theme.of(context).brightness;
-    setState(() {
-      _isDarkMode = brightness == Brightness.dark;
-    });
+    if (mounted) {
+      setState(() {
+        _isDarkMode = brightness == Brightness.dark;
+      });
+    }
   }
 
   Future<void> _toggleTheme(bool value) async {
