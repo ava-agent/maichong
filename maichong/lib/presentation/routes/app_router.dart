@@ -4,6 +4,7 @@ import '../pages/welcome_page.dart';
 import '../pages/auth/login_page.dart';
 import '../pages/auth/register_page.dart';
 import '../pages/timeline/timeline_page.dart';
+import '../pages/timeline/timeline_members_page.dart';
 import '../pages/settings/settings_page.dart';
 import '../widgets/common/bottom_nav_shell.dart';
 
@@ -12,6 +13,7 @@ enum AppRoute {
   login,
   register,
   timeline,
+  timelineMembers,
   settings,
 }
 
@@ -46,6 +48,20 @@ final goRouter = GoRouter(
               path: '/timeline',
               name: AppRoute.timeline.name,
               builder: (context, state) => const TimelinePage(),
+              routes: [
+                GoRoute(
+                  path: '/members',
+                  name: AppRoute.timelineMembers.name,
+                  builder: (context, state) {
+                    final timelineId = state.uri.queryParameters['timelineId'] ?? 'default';
+                    final timelineName = state.uri.queryParameters['timelineName'] ?? '时间线';
+                    return TimelineMembersPage(
+                      timelineId: timelineId,
+                      timelineName: timelineName,
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         ),

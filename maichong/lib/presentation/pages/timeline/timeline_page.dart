@@ -33,6 +33,13 @@ class TimelinePage extends StatelessWidget {
         elevation: 0,
         actions: [
           IconButton(
+            icon: const Icon(Icons.group),
+            onPressed: () => context.push(
+              '/timeline/members?timelineId=default&timelineName=我的时间线',
+            ),
+            tooltip: '成员管理',
+          ),
+          IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
               // TODO: Implement search

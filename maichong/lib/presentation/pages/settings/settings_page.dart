@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../../data/repositories/auth_repository.dart';
 import '../../../data/services/storage_service.dart';
+import '../profile/user_profile_page.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -118,6 +119,23 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       body: ListView(
         children: [
+          // Profile section
+          _SectionHeader(title: '账户'),
+          _SettingsTile(
+            icon: Icons.person_outline,
+            title: '个人资料',
+            subtitle: '编辑头像和昵称',
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const UserProfilePage(),
+                ),
+              );
+            },
+          ),
+          const SizedBox(height: 24),
           // Appearance section
           _SectionHeader(title: '外观'),
           _SettingsTile(
