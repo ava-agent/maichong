@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../presentation/pages/welcome_page.dart';
-import '../../presentation/pages/timeline/timeline_page.dart';
-import '../../presentation/pages/settings/settings_page.dart';
-
-part 'app_router.g.dart';
+import '../pages/welcome_page.dart';
+import '../pages/timeline/timeline_page.dart';
+import '../pages/settings/settings_page.dart';
 
 enum AppRoute {
   welcome,
@@ -13,15 +10,28 @@ enum AppRoute {
   settings,
 }
 
-@riverpod
-GoRouter goRouter(_) {
-  return GoRouter(
-    initialLocation: '/welcome',
-    routes: $routes,
-    errorBuilder: (context, state) => Scaffold(
-      body: Center(
-        child: Text('页面未找到: ${state.uri}'),
-      ),
+final goRouter = GoRouter(
+  initialLocation: '/welcome',
+  routes: [
+    GoRoute(
+      path: '/welcome',
+      name: AppRoute.welcome.name,
+      builder: (context, state) => const WelcomePage(),
     ),
-  );
-}
+    GoRoute(
+      path: '/timeline',
+      name: AppRoute.timeline.name,
+      builder: (context, state) => const TimelinePage(),
+    ),
+    GoRoute(
+      path: '/settings',
+      name: AppRoute.settings.name,
+      builder: (context, state) => const SettingsPage(),
+    ),
+  ],
+  errorBuilder: (context, state) => Scaffold(
+    body: Center(
+      child: Text('页面未找到: ${state.uri}'),
+    ),
+  ),
+);

@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../widgets/common/app_button.dart';
+import '../widgets/common/app_button.dart';
 
-part 'welcome_page.g.dart';
-
-class WelcomePage extends ConsumerWidget {
+class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -29,7 +25,7 @@ class WelcomePage extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Icon(
-                  Icons.pulse_2,
+                  Icons.favorite,
                   size: 64,
                   color: Theme.of(context).colorScheme.primary,
                 ),
@@ -101,5 +97,3 @@ class WelcomePage extends ConsumerWidget {
     );
   }
 }
-
-enum AppButtonType { primary, secondary, text }

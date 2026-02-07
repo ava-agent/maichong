@@ -9,7 +9,7 @@ class SettingsPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('设置'),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -18,12 +18,12 @@ class SettingsPage extends StatelessWidget {
               size: 64,
               color: Colors.grey,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               '设置页面',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               '即将推出...',
               style: Theme.of(context).textTheme.bodyMedium,

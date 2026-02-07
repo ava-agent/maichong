@@ -9,7 +9,7 @@ class TimelinePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('我的时间线'),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -18,12 +18,12 @@ class TimelinePage extends StatelessWidget {
               size: 64,
               color: Colors.grey,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               '时间线页面',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               '即将推出...',
               style: Theme.of(context).textTheme.bodyMedium,

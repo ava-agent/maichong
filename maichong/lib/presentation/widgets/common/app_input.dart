@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'app_input.g.dart';
 
 class AppInput extends StatefulWidget {
   final String? label;

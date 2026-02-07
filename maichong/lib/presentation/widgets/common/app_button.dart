@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'app_button.g.dart';
 
 enum AppButtonType { primary, secondary, text }
 
