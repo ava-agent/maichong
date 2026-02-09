@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../data/repositories/timeline_repository.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../../data/services/supabase_service.dart';
 
 class TimelineMembersPage extends StatefulWidget {
   final String timelineId;
@@ -30,42 +31,75 @@ class _TimelineMembersPageState extends State<TimelineMembersPage> {
     setState(() => _isLoading = true);
 
     try {
-      final repo = TimelineRepositoryImpl();
-      // For now, use mock data since we don't have a real timeline ID
-      // In production, this would query the database
-      _members = [
-        {
-          'id': '1',
-          'user_id': 'owner-1',
-          'role': 'owner',
-          'nickname': '我',
-          'avatar_url': null,
-          'joined_at': DateTime.now().toIso8601String(),
-        },
-        {
-          'id': '2',
-          'user_id': 'user-2',
-          'role': 'admin',
-          'nickname': '小明',
-          'avatar_url': null,
-          'joined_at': DateTime.now().toIso8601String(),
-        },
-        {
-          'id': '3',
-          'user_id': 'user-3',
-          'role': 'member',
-          'nickname': '小红',
-          'avatar_url': null,
-          'joined_at': DateTime.now().toIso8601String(),
-        },
-      ];
-      _currentUserRole = 'owner';
+      if (!SupabaseService().isInitialized) {
+        _members = [
+          {
+            'id': '1',
+            'user_id': 'owner-1',
+            'role': 'owner',
+            'nickname': '?',
+            'avatar_url': null,
+            'joined_at': DateTime.now().toIso8601String(),
+          },
+          {
+            'id': '2',
+            'user_id': 'user-2',
+            'role': 'admin',
+            'nickname': '??',
+            'avatar_url': null,
+            'joined_at': DateTime.now().toIso8601String(),
+          },
+          {
+            'id': '3',
+            'user_id': 'user-3',
+            'role': 'member',
+            'nickname': '??',
+            'avatar_url': null,
+            'joined_at': DateTime.now().toIso8601String(),
+          },
+        ];
+        _currentUserRole = 'owner';
+        setState(() => _isLoading = false);
+        return;
+      }
+
+      final client = Supabase.instance.client;
+      final response = await client
+          .from('timeline_members')
+          .select('id, user_id, role, joined_at, users(nickname, avatar_url, email)')
+          .eq('timeline_id', widget.timelineId)
+          .order('joined_at', ascending: true);
+
+      final list = List<Map<String, dynamic>>.from(response as List);
+      _members = list.map((m) {
+        final user = (m['users'] ?? {}) as Map;
+        return {
+          'id': m['id'],
+          'user_id': m['user_id'],
+          'role': m['role'],
+          'nickname': user['nickname'] ?? user['email'] ?? '??',
+          'avatar_url': user['avatar_url'],
+          'joined_at': m['joined_at'],
+        };
+      }).toList();
+
+      final currentUserId = client.auth.currentUser?.id;
+      if (currentUserId != null) {
+        final me = _members.firstWhere(
+          (m) => m['user_id'] == currentUserId,
+          orElse: () => {},
+        );
+        _currentUserRole = (me['role'] as String?) ?? 'member';
+      } else {
+        _currentUserRole = 'member';
+      }
+
       setState(() => _isLoading = false);
     } catch (e) {
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('加载成员失败: $e')),
+          SnackBar(content: Text('??????: $e')),
         );
       }
     }
@@ -106,7 +140,12 @@ class _TimelineMembersPageState extends State<TimelineMembersPage> {
 
     if (confirm == true) {
       try {
-        // TODO: Actually remove member from database
+        if (SupabaseService().isInitialized) {
+          await Supabase.instance.client
+              .from('timeline_members')
+              .delete()
+              .eq('id', member['id']);
+        }
         setState(() {
           _members.removeWhere((m) => m['id'] == member['id']);
         });

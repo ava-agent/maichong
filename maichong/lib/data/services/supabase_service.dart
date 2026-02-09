@@ -28,8 +28,7 @@ class SupabaseService {
   }
 
   String _getUrl() {
-    // TODO: Move to environment variables
-    // For now, return empty - user needs to configure
+    // Uses compile-time environment variables.
     const url = String.fromEnvironment('SUPABASE_URL');
     if (url.isEmpty) {
       throw Exception(

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>脉冲 - 设计预览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366F1;
+            --gradient-start: #6366F1;
+            --gradient-middle: #8B5CF6;
+            --gradient-end: #EC4899;
+            --ai-primary: #06B6D4;
+            --ai-secondary: #22D3EE;
+            --surface: #FFFFFF;
+            --background: #FAFAFA;
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --text-tertiary: #94A3B8;
+            --divider: #E2E8F0;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .preview-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: var(--surface);
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--divider);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-middle), var(--gradient-end));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .section {
+            margin: 32px 0;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .color-card {
+            background: var(--surface);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+        }
+
+        .color-preview {
+            height: 120px;
+        }
+
+        .color-info {
+            padding: 16px;
+        }
+
+        .color-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .color-hex {
+            font-size: 14px;
+            color: var(--text-tertiary);
+        }
+
+        .component-showcase {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+        }
+
+        .button-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-middle), var(--gradient-end));
+            color: white;
+        }
+
+        .btn-ai {
+            background: linear-gradient(180deg, var(--ai-primary), var(--ai-secondary));
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid var(--divider);
+            color: var(--primary);
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            margin-top: 16px;
+        }
+
+        .event-card {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        .time-indicator {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--primary), rgba(99, 102, 241, 0.75));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .time-hour {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .time-minute {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .event-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .event-time {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .chat-bubble {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+        }
+
+        .chat-user {
+            background: var(--primary);
+            color: white;
+            margin-left: auto;
+            border-radius: 20px 20px 6px 20px;
+        }
+
+        .chat-ai {
+            background: var(--gray-100);
+            color: var(--text-primary);
+            border-radius: 20px 20px 20px 6px;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 6px;
+            padding: 14px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--ai-primary);
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { opacity: 0.4; }
+            30% { opacity: 1; }
+        }
+
+        .info-box {
+            background: #FEF3C7;
+            border: 1px solid #F59E0B;
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 16px;
+        }
+
+        .info-box svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        .info-text {
+            font-size: 14px;
+            color: #92400E;
+        }
+
+        .fab-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: flex-end;
+        }
+
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .fab:hover {
+            transform: scale(1.05);
+        }
+
+        .fab-primary {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-middle), var(--gradient-end));
+        }
+
+        .fab-ai {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(180deg, var(--ai-primary), var(--ai-secondary));
+        }
+
+        .fab-extended {
+            width: auto;
+            padding: 0 20px;
+            gap: 8px;
+        }
+
+        .launch-instructions {
+            background: linear-gradient(135deg, #F0F9FF, #E0F2FE);
+            border-radius: 20px;
+            padding: 24px;
+            margin-top: 32px;
+        }
+
+        .launch-instructions h2 {
+            color: #0369A1;
+            margin-bottom: 12px;
+        }
+
+        .launch-instructions ol {
+            margin-left: 20px;
+        }
+
+        .launch-instructions li {
+            margin-bottom: 8px;
+            color: #0C4A6E;
+        }
+
+        .launch-instructions code {
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            </div>
+            <div class="title">脉冲 - 设计系统预览</div>
+        </div>
+
+        <!-- Color Palette -->
+        <div class="section">
+            <h2 class="section-title">颜色系统</h2>
+            <div class="color-palette">
+                <div class="color-card">
+                    <div class="color-preview" style="background: linear-gradient(135deg, var(--gradient-start), var(--gradient-middle), var(--gradient-end))"></div>
+                    <div class="color-info">
+                        <div class="color-name">主色渐变</div>
+                        <div class="color-hex">#6366F1 → #8B5CF6 → #EC4899</div>
+                    </div>
+                </div>
+                <div class="color-card">
+                    <div class="color-preview" style="background: linear-gradient(180deg, var(--ai-primary), var(--ai-secondary))"></div>
+                    <div class="color-info">
+                        <div class="color-name">AI 助手色</div>
+                        <div class="color-hex">#06B6D4 → #22D3EE</div>
+                    </div>
+                </div>
+                <div class="color-card">
+                    <div class="color-preview" style="background: var(--primary)"></div>
+                    <div class="color-info">
+                        <div class="color-name">Primary</div>
+                        <div class="color-hex">#6366F1</div>
+                    </div>
+                </div>
+                <div class="color-card">
+                    <div class="color-preview" style="background: var(--text-primary)"></div>
+                    <div class="color-info">
+                        <div class="color-name">文字主色</div>
+                        <div class="color-hex">#0F172A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="section">
+            <h2 class="section-title">按钮组件</h2>
+            <div class="component-showcase">
+                <h3>渐变按钮</h3>
+                <div class="button-row">
+                    <button class="btn btn-primary">创建事件</button>
+                    <button class="btn btn-ai">AI 助手</button>
+                    <button class="btn btn-outline">取消</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Card -->
+        <div class="section">
+            <h2 class="section-title">事件卡片</h2>
+            <div class="card">
+                <div class="event-card">
+                    <div class="time-indicator">
+                        <span class="time-hour">3</span>
+                        <span class="time-minute">00</span>
+                    </div>
+                    <div class="event-info">
+                        <h3>和小明喝咖啡</h3>
+                        <div class="event-time">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                            <span>明天 15:00 - 16:00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Bubbles -->
+        <div class="section">
+            <h2 class="section-title">AI 聊天气泡</h2>
+            <div class="component-showcase">
+                <div class="chat-bubble chat-ai">你好！我是你的 AI 助手。我可以帮你创建、修改、查询事件。</div>
+                <div class="chat-bubble chat-user">明天下午3点和小明喝咖啡</div>
+                <div class="chat-bubble chat-ai">好的！我来帮你创建一个事件。</div>
+                <div class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Box -->
+        <div class="section">
+            <h2 class="section-title">系统提示</h2>
+            <div class="info-box">
+                <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                <div class="info-text">配置 DEEPSEEK_API_KEY 或 OPENAI_API_KEY 环境变量以启用完整 AI 功能</div>
+            </div>
+        </div>
+
+        <!-- FAB Buttons -->
+        <div class="section">
+            <h2 class="section-title">浮动按钮</h2>
+            <div style="height: 100px; position: relative;">
+                <div class="fab-container" style="position: static; flex-direction: row; justify-content: flex-end; align-items: center;">
+                    <div class="fab fab-ai">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                    </div>
+                    <div class="fab fab-primary fab-extended">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                        <span>创建事件</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Launch Instructions -->
+        <div class="launch-instructions">
+            <h2>🚀 启动应用</h2>
+            <ol>
+                <li>确保已安装 Flutter SDK</li>
+                <li>运行启动脚本: <code>start.bat</code></li>
+                <li>或手动运行: <code>flutter run -d chrome --web-port 8082</code></li>
+                <li>访问: <code>http://localhost:8082</code></li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Fixed FAB Demo -->
+    <div class="fab-container">
+        <div class="fab fab-ai">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </div>
+        <div class="fab fab-primary fab-extended">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            <span>创建事件</span>
+        </div>
+    </div>
+</body>
+</html>

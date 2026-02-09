@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../../data/repositories/auth_repository.dart';
 import '../../../data/services/storage_service.dart';
+import '../../../core/theme/theme_controller.dart';
 import '../profile/user_profile_page.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -44,21 +45,21 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _loadThemePreference() {
-    final brightness = Theme.of(context).brightness;
+    final mode = ThemeController().mode;
     if (mounted) {
       setState(() {
-        _isDarkMode = brightness == Brightness.dark;
+        _isDarkMode = mode == ThemeMode.dark;
       });
     }
   }
 
   Future<void> _toggleTheme(bool value) async {
     setState(() => _isDarkMode = value);
-    // TODO: Implement theme persistence and actual theme switching
+    await ThemeController().setMode(value ? ThemeMode.dark : ThemeMode.light);
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(value ? '已切换到深色模式' : '已切换到浅色模式'),
+          content: Text(value ? 'Switched to dark mode' : 'Switched to light mode'),
           duration: const Duration(seconds: 1),
         ),
       );

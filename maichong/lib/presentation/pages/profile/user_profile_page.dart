@@ -1,8 +1,8 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:package:file_picker/file_picker.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../data/repositories/auth_repository.dart';
+import '../../../data/services/supabase_service.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({super.key});
@@ -14,6 +14,7 @@ class UserProfilePage extends StatefulWidget {
 class _UserProfilePageState extends State<UserProfilePage> {
   final _nicknameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final AuthRepository _authRepository = AuthRepositoryImpl();
   bool _isSaving = false;
   bool _isUploadingAvatar = false;
 
@@ -34,35 +35,101 @@ class _UserProfilePageState extends State<UserProfilePage> {
   }
 
   Future<void> _loadUserData() async {
-    // TODO: Load actual user data from auth service
-    setState(() {});
+    if (!SupabaseService().isInitialized) {
+      setState(() {});
+      return;
+    }
+
+    final user = _authRepository.currentUser;
+    if (user == null) {
+      setState(() {});
+      return;
+    }
+
+    try {
+      final response = await Supabase.instance.client
+          .from('users')
+          .select('*')
+          .eq('id', user.id)
+          .maybeSingle();
+
+      if (response != null) {
+        setState(() {
+          _userData = Map<String, dynamic>.from(response);
+          _nicknameController.text = _userData['nickname'] ?? '';
+        });
+      } else {
+        setState(() {
+          _userData = {
+            'id': user.id,
+            'email': user.email ?? '',
+            'nickname': user.userMetadata?['nickname'] ?? '??',
+            'avatar_url': user.userMetadata?['avatar_url'],
+            'created_at': DateTime.now().toIso8601String(),
+          };
+          _nicknameController.text = _userData['nickname'] ?? '';
+        });
+      }
+    } catch (e) {
+      setState(() {});
+    }
   }
 
   Future<void> _pickAvatar() async {
     try {
+      if (!SupabaseService().isInitialized) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('???? Supabase ??????')),
+          );
+        }
+        return;
+      }
+
       final result = await FilePicker.platform.pickFiles(
         type: FileType.image,
         allowMultiple: false,
+        withData: true,
       );
 
-      if (result != null && result.files.single.path != null) {
+      if (result != null && result.files.isNotEmpty) {
         setState(() => _isUploadingAvatar = true);
 
-        // TODO: Upload to Supabase Storage
-        // For now, just use the local file path
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('头像上传功能需要 Supabase Storage 配置')),
-          );
+        final file = result.files.single;
+        final bytes = file.bytes;
+        if (bytes == null) {
+          throw Exception('????????');
         }
 
-        setState(() => _isUploadingAvatar = false);
+        final userId = _authRepository.currentUserId;
+        if (userId == null) {
+          throw Exception('?????');
+        }
+
+        final filePath = 'avatars/$userId/${DateTime.now().millisecondsSinceEpoch}_${file.name}';
+        final storage = Supabase.instance.client.storage.from('avatars');
+        await storage.uploadBinary(
+          filePath,
+          bytes,
+          fileOptions: FileOptions(
+            contentType: file.mimeType ?? 'image/png',
+            upsert: true,
+          ),
+        );
+        final publicUrl = storage.getPublicUrl(filePath);
+
+        await _authRepository.updateProfile(avatarUrl: publicUrl);
+
+        setState(() {
+          _userData['avatar_url'] = publicUrl;
+          _isUploadingAvatar = false;
+        });
       }
     } catch (e) {
       setState(() => _isUploadingAvatar = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('选择图片失败: $e')),
+          SnackBar(content: Text('??????: $e')),
         );
       }
     }
@@ -76,21 +143,23 @@ class _UserProfilePageState extends State<UserProfilePage> {
     setState(() => _isSaving = true);
 
     try {
-      // TODO: Save to database via AuthRepository
-      setState(() {
-        _userData['nickname'] = _nicknameController.text.trim();
-      });
+      final nickname = _nicknameController.text.trim();
+      _userData['nickname'] = nickname;
+
+      if (SupabaseService().isInitialized) {
+        await _authRepository.updateProfile(nickname: nickname);
+      }
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('个人资料已保存')),
+          const SnackBar(content: Text('???????')),
         );
         Navigator.pop(context);
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('保存失败: $e')),
+          SnackBar(content: Text('????: $e')),
         );
       }
     } finally {
@@ -324,7 +393,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       color: theme.colorScheme.onSurface.withOpacity(0.4),
                     ),
                     onTap: () {
-                      // TODO: Show create timeline dialog
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('创建时间线功能即将推出')),
                       );

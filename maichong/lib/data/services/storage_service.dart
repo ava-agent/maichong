@@ -1,5 +1,6 @@
 import 'dart:html' as html;
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../domain/models/event.dart';
@@ -13,6 +14,7 @@ class StorageService {
 
   bool _isInitialized = false;
   EventRepositoryImpl? _eventRepository;
+  Box<dynamic>? _settingsBox;
 
   bool get isInitialized => _isInitialized;
   EventRepositoryImpl get eventRepository {
@@ -42,6 +44,7 @@ class StorageService {
       // Initialize repositories
       _eventRepository = EventRepositoryImpl();
       await _eventRepository!.init();
+      _settingsBox = await Hive.openBox('settings');
 
       _isInitialized = true;
     } catch (e) {
@@ -70,6 +73,23 @@ class StorageService {
     } catch (e) {
       throw Exception('Failed to clear all data: $e');
     }
+  }
+
+  ThemeMode getThemeMode() {
+    final value = _settingsBox?.get('theme_mode') as String?;
+    switch (value) {
+      case 'dark':
+        return ThemeMode.dark;
+      case 'system':
+        return ThemeMode.system;
+      case 'light':
+      default:
+        return ThemeMode.light;
+    }
+  }
+
+  Future<void> setThemeMode(ThemeMode mode) async {
+    await _settingsBox?.put('theme_mode', mode.name);
   }
 
   Future<void> close() async {

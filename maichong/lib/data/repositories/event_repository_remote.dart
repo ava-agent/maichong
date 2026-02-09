@@ -16,6 +16,35 @@ class EventRepositoryRemoteImpl implements EventRepositoryRemote {
   EventRepositoryRemoteImpl({SupabaseClient? client})
       : _client = client ?? Supabase.instance.client;
 
+  Future<String> _ensureDefaultTimelineId(String userId) async {
+    try {
+      final existing = await _client
+          .from('user_timelines')
+          .select('id')
+          .order('created_at', ascending: true)
+          .limit(1)
+          .maybeSingle();
+
+      if (existing != null && existing['id'] != null) {
+        return existing['id'].toString();
+      }
+    } catch (_) {
+      // fall through to create
+    }
+
+    final created = await _client
+        .from('timelines')
+        .insert({
+          'name': '我的时间线',
+          'description': '默认时间线',
+          'owner_id': userId,
+        })
+        .select()
+        .single();
+
+    return created['id'].toString();
+  }
+
   @override
   Future<List<Event>> getEventsByTimeline(String timelineId) async {
     try {
@@ -52,6 +81,12 @@ class EventRepositoryRemoteImpl implements EventRepositoryRemote {
   @override
   Future<Event> createEvent(Event event) async {
     try {
+      final userId = _client.auth.currentUser?.id;
+      if (userId == null) {
+        throw Exception('User not authenticated');
+      }
+      final timelineId = await _ensureDefaultTimelineId(userId);
+
       final data = {
         'id': event.id,
         'title': event.title,
@@ -61,7 +96,8 @@ class EventRepositoryRemoteImpl implements EventRepositoryRemote {
         'location': event.location,
         'color': event.color,
         'is_all_day': event.isAllDay,
-        'timeline_id': 'default', // TODO: Get from context
+        'timeline_id': timelineId,
+        'creator_id': userId,
       };
 
       final response = await _client
