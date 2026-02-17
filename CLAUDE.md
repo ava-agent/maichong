@@ -4,75 +4,87 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**脉冲 (Mài Chōng)** is an AI-native life rhythm coordination assistant for individuals and intimate groups (families, couples, friends). The project is currently in the **pre-development planning phase**.
+**脉冲 (Maichong / Pulse)** — AI-native life rhythm coordination assistant for intimate groups (couples, families, close friends). Web SPA with collaborative timelines, AI chat assistant, and shareable schedule cards.
 
-**Core Concept**: Replace traditional calendar grids with a visual timeline interface and AI-driven natural language scheduling.
-
-**Target User**: "The Planner" - the person in every friend group, family, or couple who organizes activities and coordinates schedules.
-
-## Tech Stack (Planned)
-
-- **Frontend**: Flutter (cross-platform mobile)
-- **Backend/Database**: Supabase (PostgreSQL + real-time + auth)
-- **AI**: DeepSeek or other LLM API for natural language scheduling
-- **Language**: Dart (Flutter), TypeScript (Supabase Edge Functions if needed)
-
-## Essential Commands
-
-Once development begins, these will be the standard commands:
+## Build & Dev Commands
 
 ```bash
-# Flutter
-flutter run                    # Run the app
-flutter test                   # Run tests
-flutter analyze                # Linting
-flutter build apk              # Build Android APK
-flutter build ios              # Build iOS app
-
-# Supabase (if using CLI)
-supabase start                 # Start local dev instance
-supabase db push               # Push migrations
-supabase gen types typescript  # Generate types
+npm install          # Install dependencies
+npm run dev          # Start dev server (port 3000)
+npm run build        # Production build to dist/
+npm run preview      # Preview production build
 ```
 
-## Product Architecture
+## Tech Stack
 
-The app has two main views:
+- **Frontend**: Vite + Vanilla JS (ES Modules) + CSS Variables
+- **Backend**: Supabase (Auth + PostgreSQL + Realtime)
+- **AI**: GLM-4 (智谱AI, OpenAI-compatible API)
+- **Screenshot**: modern-screenshot (for share card generation)
 
-1. **AI Chat View**: Conversation interface where users interact with an AI assistant to create, modify, and query schedules using natural language.
+## Configuration
 
-2. **Timeline View**: Vertical scrolling timeline displaying events as "pulse cards" - the core innovation replacing traditional calendar grids.
+Copy `.env.example` to `.env` and fill in keys. The app works in demo mode (localStorage) without Supabase config.
 
-**Core Data Model** (planned):
-- `Events` (脉冲事件): Time-bounded activities with title, time, location, participants
-- `Timelines` (时间线): Collections of events, can be shared among users
-- `Users`: Standard user profiles with authentication
+## Architecture
 
-## Key Differentiators
+### Source Code (`src/`)
 
-1. **AI-Native**: Natural language is the primary input method, not a side feature
-2. **Visual Timeline**: Vertical flow replaces calendar grid - more intuitive for "life rhythm"
-3. **Real-Time Collaboration**: Default "Live Mode" where all changes sync instantly
-4. **Shareable Aesthetics**: Generate beautiful images/video of schedules for social sharing
-5. **Proposal Mode**: Future feature inspired by Git - changes as "proposals" requiring approval
+- **`main.js`** — App bootstrap, route registration, Supabase auth init
+- **`router.js`** — Hash-based SPA router with guards
+- **`config.js`** — Environment variable access
 
-## MVP Scope (3-Week Plan)
+#### `lib/` — Framework layer (zero domain knowledge)
+- `store.js` — Reactive pub/sub state management. `subscribe(key, callback)` for granular reactivity
+- `component.js` — Base component class with mount/unmount lifecycle
+- `dom.js` — `h()` hyperscript helper for DOM creation, `$()` query selector
+- `supabase.js` — Supabase client singleton
 
-**Week 1**: Single-player timeline (local-only event CRUD)
-**Week 2**: Collaboration (Supabase sync, auth, invites)
-**Week 3**: AI assistant V1 (natural language → structured events)
+#### `services/` — Business logic (no DOM)
+- `auth.service.js` — signUp/signIn/signOut, demo mode fallback
+- `timeline.service.js` — Timeline CRUD, membership, invite-via-link
+- `event.service.js` — Pulse event CRUD, date grouping, formatting. Falls back to localStorage
+- `realtime.service.js` — Supabase Realtime subscriptions for events/members
+- `ai.service.js` — GLM-4 chat integration, system prompt builder, action executor. Falls back to mock responses
+- `share.service.js` — Share card DOM generation, screenshot export
 
-## Documentation Structure
+#### `views/` — Page-level views (mounted by router)
+- `auth.view.js` — Login/signup or demo mode entry
+- `timeline-list.view.js` — Home page, list of timelines
+- `timeline.view.js` — Single timeline with pulse cards, FAB for event creation
+- `chat.view.js` — AI chat interface (Doubao-style)
+- `share-preview.view.js` — Share card preview with download
 
-- `产品规划/脉冲-产品计划书.md` - **Primary reference** for feature definition and strategy
-- `产品规划/脉冲-行动计划.md` - Implementation roadmap and phase breakdown
-- `GEMINI.md` - Legacy AI context file (similar to this one)
-- `讨论环节1/` - Market research, competitive analysis, architecture planning
-- `设计稿1/` & `设计稿2_交互稿/` - UI/UX prototypes (HTML/SVG)
+#### `components/` — Reusable UI pieces
+- `header.js` — Navigation header with icon system (`createIcon('back')`)
+- `pulse-card.js` — Event card with status indicator
+- `event-form.js` — Bottom-sheet modal for creating/editing events
+- `input-bar.js` — Bottom input bar (shared between views)
+- `chat-message.js` + `typing-indicator.js` — Chat bubbles
+- `avatar-stack.js` — Overlapping member avatars
+- `modal.js` — Generic bottom-sheet modal
+- `toast.js` — Toast notifications (`showToast(msg, type)`)
 
-## Important Context
+#### `styles/` — CSS modules imported via `styles/index.css`
+- `variables.css` — Design tokens: `--primary-color: #4F46E5`, spacing, shadows
 
-- **Current Phase**: Planning/design. No actual code exists yet.
-- **Design Language**: Minimalist, elegant, focused on "pulse" imagery and rhythm
-- **Primary Value Prop**: "Sync every pulse" - coordinating life with people who matter
-- **Beachhead Market**: Urban professionals aged 18-35 who plan activities for their social circles
+### Routes
+
+| Hash Route | View | Notes |
+|---|---|---|
+| `#/auth` | auth | Login/signup |
+| `#/` | timeline-list | Home page |
+| `#/timeline/:id` | timeline | Event cards with realtime sync |
+| `#/timeline/:id/chat` | chat | AI assistant |
+| `#/timeline/:id/share` | share-preview | Screenshot export |
+| `#/join/:code` | (handler) | Process invite link |
+
+### Database
+
+Schema in `supabase/migrations/001_initial_schema.sql`. Tables: `profiles`, `timelines`, `timeline_members`, `events`, `chat_messages`. All have RLS policies.
+
+## Product Documents
+
+- `产品规划/脉冲-产品计划书.md` — **Primary source of truth** for product vision and features
+- `产品规划/脉冲-行动计划.md` — Development roadmap
+- `设计稿1/` + `设计稿2_交互稿/` — Original HTML prototypes (reference only)

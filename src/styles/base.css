@@ -1,0 +1,29 @@
+#app {
+  max-width: 430px;
+  margin: 0 auto;
+  height: 100vh;
+  height: 100dvh;
+  background-color: var(--bg-primary);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 431px) {
+  #app {
+    border-radius: 20px;
+    margin-top: 16px;
+    height: calc(100dvh - 32px);
+    box-shadow: 0 0 0 1px var(--border-color), var(--shadow-lg);
+  }
+}
+
+#view-container {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.scrollable::-webkit-scrollbar { width: 0; height: 0; }
+.scrollable { scrollbar-width: none; }
