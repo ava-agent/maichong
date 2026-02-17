@@ -51,7 +51,7 @@ export async function createTimeline(title, description = '') {
     description,
     owner_id: user.id,
     invite_code: Math.random().toString(36).slice(2, 14),
-    color: '#4F46E5',
+    color: '#4C6EF5',
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   }

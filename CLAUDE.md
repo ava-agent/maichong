@@ -60,13 +60,14 @@ Copy `.env.example` to `.env` and fill in keys. The app works in demo mode (loca
 - `pulse-card.js` — Event card with status indicator
 - `event-form.js` — Bottom-sheet modal for creating/editing events
 - `input-bar.js` — Bottom input bar (shared between views)
-- `chat-message.js` + `typing-indicator.js` — Chat bubbles
+- `chat-message.js` — Chat bubbles, typing indicator, suggestion chips
 - `avatar-stack.js` — Overlapping member avatars
+- `loading-spinner.js` — Loading indicator and overlay
 - `modal.js` — Generic bottom-sheet modal
 - `toast.js` — Toast notifications (`showToast(msg, type)`)
 
 #### `styles/` — CSS modules imported via `styles/index.css`
-- `variables.css` — Design tokens: `--primary-color: #4F46E5`, spacing, shadows
+- `variables.css` — Design tokens: `--primary-color: #4C6EF5`, spacing, shadows
 
 ### Routes
 
@@ -82,6 +83,12 @@ Copy `.env.example` to `.env` and fill in keys. The app works in demo mode (loca
 ### Database
 
 Schema in `supabase/migrations/001_initial_schema.sql`. Tables: `profiles`, `timelines`, `timeline_members`, `events`, `chat_messages`. All have RLS policies.
+
+## Deployment
+
+- **Frontend**: Vercel — https://maichong.vercel.app
+- **Backend**: Supabase (project `evljxrlicctchscyfuan`, region `ap-northeast-1`)
+- **CI**: Push to `main` triggers Vercel auto-deploy
 
 ## Product Documents
 
