@@ -125,8 +125,8 @@ export function showEventForm(event = null, { onSave, onDelete } = {}) {
   })
 
   const modal = showModal(isEdit ? '编辑事件' : '新建事件', form)
-  // 自动聚焦标题
-  setTimeout(() => form.querySelector('[name="title"]').focus(), 100)
+  // 自动聚焦标题（检查元素存在）
+  setTimeout(() => form.querySelector('[name="title"]')?.focus(), 100)
 
   return modal
 }

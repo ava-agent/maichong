@@ -8,7 +8,10 @@ function getLocalEvents(timelineId) {
   try {
     const all = JSON.parse(localStorage.getItem(LOCAL_EVENTS_KEY) || '{}')
     return all[timelineId] || []
-  } catch { return [] }
+  } catch (e) {
+    console.warn('Failed to parse local events:', e)
+    return []
+  }
 }
 
 function saveLocalEvents(timelineId, events) {
@@ -16,7 +19,9 @@ function saveLocalEvents(timelineId, events) {
     const all = JSON.parse(localStorage.getItem(LOCAL_EVENTS_KEY) || '{}')
     all[timelineId] = events
     localStorage.setItem(LOCAL_EVENTS_KEY, JSON.stringify(all))
-  } catch { /* ignore */ }
+  } catch (e) {
+    console.warn('Failed to save local events:', e)
+  }
 }
 
 export async function listEvents(timelineId) {

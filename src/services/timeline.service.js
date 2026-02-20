@@ -9,7 +9,10 @@ const LOCAL_KEY = 'maichong_timelines'
 function getLocalTimelines() {
   try {
     return JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]')
-  } catch { return [] }
+  } catch (e) {
+    console.warn('Failed to parse local timelines:', e)
+    return []
+  }
 }
 
 function saveLocalTimelines(timelines) {

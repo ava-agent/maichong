@@ -65,9 +65,9 @@ export async function showTimelineView(timelineId, container) {
   body.appendChild(timelineContainer)
   view.appendChild(body)
 
-  // 渲染事件
+  // 渲染事件（保留滚动位置）
   function renderEvents(events) {
-    // 保留轴线
+    const scrollTop = body.scrollTop
     const axis = timelineContainer.querySelector('.timeline-axis')
     clearChildren(timelineContainer)
     timelineContainer.appendChild(axis)
@@ -97,6 +97,9 @@ export async function showTimelineView(timelineId, container) {
         )
       }
     }
+
+    // 恢复滚动位置
+    requestAnimationFrame(() => { body.scrollTop = scrollTop })
   }
 
   renderEvents(events)

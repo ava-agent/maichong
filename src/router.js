@@ -5,6 +5,7 @@ const routes = []
 let currentView = null
 let viewContainer = null
 let beforeEachGuard = null
+let isNavigating = false
 
 export function setViewContainer(container) {
   viewContainer = container
@@ -39,32 +40,40 @@ function matchRoute(path) {
 }
 
 async function handleRouteChange() {
-  const path = getCurrentPath()
+  if (isNavigating) return
+  isNavigating = true
 
-  // 执行路由守卫
-  if (beforeEachGuard) {
-    const result = await beforeEachGuard(path)
-    if (result === false) return
-    if (typeof result === 'string') {
-      navigate(result)
+  try {
+    const path = getCurrentPath()
+
+    // 执行路由守卫
+    if (beforeEachGuard) {
+      const result = await beforeEachGuard(path)
+      if (result === false) return
+      if (typeof result === 'string') {
+        navigate(result)
+        return
+      }
+    }
+
+    const matched = matchRoute(path)
+    if (!matched) {
+      // Fallback to home; if already at home, do nothing to prevent loops
+      if (path !== '/') navigate('/')
       return
     }
-  }
 
-  const matched = matchRoute(path)
-  if (!matched) {
-    navigate('/')
-    return
-  }
+    // 卸载旧视图
+    if (currentView && currentView.unmount) {
+      currentView.unmount()
+    }
 
-  // 卸载旧视图
-  if (currentView && currentView.unmount) {
-    currentView.unmount()
-  }
-
-  // 挂载新视图
-  if (viewContainer) {
-    currentView = await matched.handler(matched.params, viewContainer)
+    // 挂载新视图
+    if (viewContainer) {
+      currentView = await matched.handler(matched.params, viewContainer)
+    }
+  } finally {
+    isNavigating = false
   }
 }
 

@@ -2,13 +2,20 @@ import { getSupabase, isSupabaseConfigured } from '../lib/supabase.js'
 import { store } from '../lib/store.js'
 
 let channels = []
+let currentTimelineId = null
 
 export function subscribeToTimeline(timelineId) {
   if (!isSupabaseConfigured()) return
 
+  // Prevent duplicate subscriptions for same timeline
+  if (currentTimelineId === timelineId && channels.length > 0) return
+
+  // Clean up previous subscriptions
+  unsubscribeAll()
+  currentTimelineId = timelineId
+
   const supabase = getSupabase()
 
-  // 订阅事件变更
   const eventsChannel = supabase
     .channel(`events:${timelineId}`)
     .on('postgres_changes', {
@@ -35,7 +42,6 @@ export function subscribeToTimeline(timelineId) {
     })
     .subscribe()
 
-  // 订阅成员变更
   const membersChannel = supabase
     .channel(`members:${timelineId}`)
     .on('postgres_changes', {
@@ -61,8 +67,9 @@ export function subscribeToTimeline(timelineId) {
 }
 
 export function unsubscribeAll() {
-  if (!isSupabaseConfigured()) return
+  if (!isSupabaseConfigured() || channels.length === 0) return
   const supabase = getSupabase()
   channels.forEach(ch => supabase.removeChannel(ch))
   channels = []
+  currentTimelineId = null
 }

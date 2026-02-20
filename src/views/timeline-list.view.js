@@ -78,8 +78,8 @@ function renderList(body, timelines) {
       h('h2', { className: 'greeting-text' }, `${getGreeting()}\uff0c${name}`),
       h('p', { className: 'greeting-sub' }, `\u4f60\u6709 ${timelines.length} \u4e2a\u65f6\u95f4\u7ebf`)
     ),
-    ...timelines.map((tl, i) => {
-      const card = h('div', {
+    ...timelines.map((tl, i) =>
+      h('div', {
         className: 'timeline-card slide-up',
         style: { animationDelay: `${i * 0.06}s` },
         dataset: { id: tl.id }
@@ -87,18 +87,23 @@ function renderList(body, timelines) {
         h('h3', { className: 'timeline-card-title' }, tl.title),
         h('p', { className: 'timeline-card-meta' }, formatDate(tl.created_at))
       )
-      card.addEventListener('click', () => navigate(`/timeline/${tl.id}`))
-
-      let pressTimer
-      card.addEventListener('pointerdown', () => {
-        pressTimer = setTimeout(() => showDeleteConfirm(tl), 600)
-      })
-      card.addEventListener('pointerup', () => clearTimeout(pressTimer))
-      card.addEventListener('pointerleave', () => clearTimeout(pressTimer))
-
-      return card
-    })
+    )
   )
+
+  // Event delegation: single listener on list for all cards
+  let pressTimer
+  list.addEventListener('click', (e) => {
+    const card = e.target.closest('.timeline-card')
+    if (card?.dataset.id) navigate(`/timeline/${card.dataset.id}`)
+  })
+  list.addEventListener('pointerdown', (e) => {
+    const card = e.target.closest('.timeline-card')
+    if (!card?.dataset.id) return
+    const tl = timelines.find(t => t.id === card.dataset.id)
+    if (tl) pressTimer = setTimeout(() => showDeleteConfirm(tl), 600)
+  })
+  list.addEventListener('pointerup', () => clearTimeout(pressTimer))
+  list.addEventListener('pointerleave', () => clearTimeout(pressTimer))
 
   body.appendChild(list)
 }

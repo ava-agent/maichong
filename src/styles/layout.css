@@ -29,7 +29,7 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
+  /* -webkit-overflow-scrolling: touch is deprecated and handled natively */
 }
 
 .view-body.scrollable::-webkit-scrollbar { width: 0; }

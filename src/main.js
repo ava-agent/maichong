@@ -17,6 +17,14 @@ async function init() {
   window.addEventListener('online', () => store.setState({ online: true }))
   window.addEventListener('offline', () => store.setState({ online: false }))
 
+  // iOS 虚拟键盘：调整视口高度避免遮挡输入框
+  if (window.visualViewport) {
+    const app = document.getElementById('app')
+    window.visualViewport.addEventListener('resize', () => {
+      app.style.height = `${window.visualViewport.height}px`
+    })
+  }
+
   // 初始化 Supabase 认证状态
   if (isSupabaseConfigured()) {
     const supabase = getSupabase()

@@ -50,7 +50,7 @@ export async function showChatView(timelineId, container) {
     // \u5efa\u8bae\u6807\u7b7e
     chatLog.appendChild(
       createSuggestionChips(SUGGESTIONS, (text) => {
-        inputBar._input.value = text
+        inputBar.setValue(text)
         inputBar.querySelector('.send-btn').click()
       })
     )
@@ -117,11 +117,11 @@ export async function showChatView(timelineId, container) {
   const preMsg = urlParams.get('msg')
   if (preMsg) {
     setTimeout(() => {
-      inputBar._input.value = preMsg
+      inputBar.setValue(preMsg)
       inputBar.querySelector('.send-btn').click()
     }, 300)
   } else {
-    setTimeout(() => inputBar._input.focus(), 200)
+    setTimeout(() => inputBar.focusInput(), 200)
   }
 
   return { unmount() {} }

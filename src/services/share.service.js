@@ -83,7 +83,7 @@ export async function generateAndDownload() {
     console.error('截图生成失败:', err)
     return null
   } finally {
-    document.body.removeChild(card)
+    if (card.parentNode) card.parentNode.removeChild(card)
   }
 }
 

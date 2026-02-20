@@ -35,7 +35,11 @@ export function createInputBar({ placeholder = '输入你的计划...', onSend, 
   }
 
   const bar = h('footer', { className: 'input-bar' }, input, sendBtn)
-  bar._input = input
+
+  // Public API
+  bar.setValue = (val) => { input.value = val }
+  bar.getValue = () => input.value
+  bar.focusInput = () => input.focus()
 
   return bar
 }
