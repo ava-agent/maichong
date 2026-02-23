@@ -4,7 +4,7 @@ import { formatTime } from '../services/event.service.js'
 /**
  * 创建脉冲事件卡片
  */
-export function createPulseCard(event, { onEdit, onDelete } = {}) {
+export function createPulseCard(event, { onEdit } = {}) {
   const statusClass = `status-${event.status || 'confirmed'}`
   const time = event.is_all_day ? '全天' : formatTime(event.start_time)
 

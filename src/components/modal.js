@@ -3,16 +3,18 @@ import { h } from '../lib/dom.js'
 export function showModal(title, contentEl, options = {}) {
   const { onClose } = options
   let overlay
+  let closing = false
 
   function close() {
-    if (overlay && overlay.parentNode) {
-      overlay.style.opacity = '0'
-      const content = overlay.querySelector('.modal-content')
-      if (content) content.style.transform = 'translateY(100%)'
-      setTimeout(() => {
-        if (overlay.parentNode) overlay.parentNode.removeChild(overlay)
-      }, 250)
-    }
+    if (closing || !overlay?.parentNode) return
+    closing = true
+
+    overlay.style.opacity = '0'
+    const content = overlay.querySelector('.modal-content')
+    if (content) content.style.transform = 'translateY(100%)'
+    setTimeout(() => {
+      if (overlay.parentNode) overlay.parentNode.removeChild(overlay)
+    }, 250)
     onClose?.()
   }
 

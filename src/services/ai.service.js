@@ -63,7 +63,7 @@ export async function sendChatMessage(timelineId, userMessage) {
     const supabase = getSupabase()
     await supabase.from('chat_messages').insert({
       timeline_id: timelineId,
-      user_id: store.getState().user.id,
+      user_id: store.getState().user?.id,
       role: 'user',
       content: userMessage
     })
@@ -138,7 +138,7 @@ export async function sendChatMessage(timelineId, userMessage) {
     const supabase = getSupabase()
     await supabase.from('chat_messages').insert({
       timeline_id: timelineId,
-      user_id: store.getState().user.id,
+      user_id: store.getState().user?.id,
       role: 'assistant',
       content: aiReply,
       metadata: aiAction ? { action: aiAction } : {}
