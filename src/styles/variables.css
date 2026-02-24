@@ -42,13 +42,17 @@
   /* 尺寸 */
   --header-height: 48px;
   --input-bar-height: 56px;
+  --tab-bar-height: 52px;
 
-  /* 圆角 */
+  /* 卡片阴影 - 豆包风格极淡 */
+  --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.02);
+
+  /* 圆角 - 豆包风格更大 */
   --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
   --radius-full: 9999px;
 
   /* 过渡 */

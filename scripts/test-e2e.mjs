@@ -79,13 +79,27 @@ async function main() {
     assert(title === '脉冲', 'Auth title is "脉冲"');
 
     const subtitle = await page.$eval('.auth-subtitle', el => el.textContent);
-    assert(subtitle === '同步每次脉冲', 'Auth subtitle is correct');
+    assert(subtitle === 'AI 驱动的生活节律协调助手', 'Auth subtitle is correct');
 
     const demoBadge = await page.$('.demo-badge');
     assert(!!demoBadge, 'Demo badge is visible');
 
     const demoBtn = await page.$('.btn-primary');
     assert(!!demoBtn, 'Demo "开始体验" button exists');
+
+    // Auth page enhancements
+    const authDecoration = await page.$('.auth-decoration');
+    assert(!!authDecoration, 'Auth decoration element exists');
+
+    const authBrand = await page.$('.auth-brand');
+    assert(!!authBrand, 'Auth brand section exists');
+
+    const authFooter = await page.$('.auth-footer-text');
+    assert(!!authFooter, 'Auth footer tagline exists');
+
+    // Tab bar should be HIDDEN on auth page
+    const tabBarHidden = await page.$eval('#tab-bar', el => el.classList.contains('hidden'));
+    assert(tabBarHidden, 'Tab bar is hidden on auth page');
 
     // =====================
     // TEST 2: Demo Mode Login
@@ -99,9 +113,9 @@ async function main() {
     assert(currentUrl.includes('#/'), 'Redirected to home page');
 
     // =====================
-    // TEST 3: Home Page
+    // TEST 3: Home Page & Tab Bar
     // =====================
-    console.log('\n[Test Suite 3: Home Page]');
+    console.log('\n[Test Suite 3: Home Page & Tab Bar]');
 
     const greetingEl = await page.$('.greeting-text');
     assert(!!greetingEl, 'Greeting text exists');
@@ -117,6 +131,18 @@ async function main() {
 
     const fab = await page.$('.fab');
     assert(!!fab, 'FAB button exists');
+
+    // Tab bar should be VISIBLE on home page
+    const tabBarVisible = await page.$eval('#tab-bar', el => !el.classList.contains('hidden'));
+    assert(tabBarVisible, 'Tab bar is visible on home page');
+
+    // Tab bar has 4 tabs
+    const tabItems = await page.$$('.tab-item');
+    assert(tabItems.length === 4, 'Tab bar has 4 tabs');
+
+    // Home tab should be active
+    const homeTabActive = await page.$eval('.tab-item[data-tab="home"]', el => el.classList.contains('active'));
+    assert(homeTabActive, 'Home tab is active on home page');
 
     // =====================
     // TEST 4: Create Timeline
@@ -171,6 +197,14 @@ async function main() {
     const tlFab = await page.$('.fab');
     assert(!!tlFab, 'FAB button exists on timeline view');
 
+    // Tab bar: timeline tab should be active
+    const timelineTabActive = await page.$eval('.tab-item[data-tab="timeline"]', el => el.classList.contains('active'));
+    assert(timelineTabActive, 'Timeline tab is active on timeline view');
+
+    // Input bar should be above tab bar
+    const inputAboveTab = await page.$('.input-bar.above-tab-bar');
+    assert(!!inputAboveTab, 'Input bar positioned above tab bar');
+
     // =====================
     // TEST 6: Create Event via FAB
     // =====================
@@ -208,30 +242,32 @@ async function main() {
     assert(cardTitle === '测试事件', 'Event card title matches');
 
     // =====================
-    // TEST 7: Navigate to Chat
+    // TEST 7: Navigate to Chat via Tab Bar
     // =====================
     console.log('\n[Test Suite 7: Chat View]');
 
-    // Click the chat icon in header
-    const headerBtns = await page.$$('.header-btn');
-    // The chat button should have a chat icon (contains path with "20 2H4")
-    let chatBtn = null;
-    for (const btn of headerBtns) {
-      const html = await btn.evaluate(el => el.innerHTML);
-      // Look for the share or invite icons to find the right button set
-    }
-    // Navigate directly via URL
-    const tlId = page.url().match(/timeline\/([^/]+)/)?.[1];
-    if (tlId) {
-      await page.goto(`${BASE}/#/timeline/${tlId}/chat`, { waitUntil: 'networkidle2' });
-      await sleep(1000);
-    }
+    // Click the "AI助手" tab to navigate to chat
+    const chatTab = await page.$('.tab-item[data-tab="chat"]');
+    assert(!!chatTab, 'Chat tab exists in tab bar');
+    await chatTab.click();
+    await sleep(1000);
+
+    const chatUrl = page.url();
+    assert(chatUrl.includes('/chat'), 'Navigated to chat via tab bar');
+
+    // Chat tab should now be active
+    const chatTabActive = await page.$eval('.tab-item[data-tab="chat"]', el => el.classList.contains('active'));
+    assert(chatTabActive, 'Chat tab is active on chat view');
 
     const chatWelcome = await page.$('.chat-welcome');
     assert(!!chatWelcome, 'Chat welcome area shown');
 
     const chatWelcomeTitle = await page.$eval('.chat-welcome-title', el => el.textContent);
     assert(chatWelcomeTitle.includes('脉冲助手'), 'Chat welcome title correct');
+
+    // Capability cards (Doubao-style)
+    const capCards = await page.$$('.capability-card');
+    assert(capCards.length === 3, 'Three capability cards shown');
 
     const chips = await page.$$('.suggestion-chip');
     assert(chips.length > 0, 'Suggestion chips shown');
@@ -263,31 +299,52 @@ async function main() {
     assert(!!aiMsg, 'AI message bubble appears');
 
     // =====================
-    // TEST 9: Navigation Back
+    // TEST 9: Tab Bar Navigation
     // =====================
-    console.log('\n[Test Suite 9: Navigation]');
-    const backBtn = await page.$('.header-btn');
-    if (backBtn) {
-      await backBtn.click();
-      await sleep(1000);
-    }
+    console.log('\n[Test Suite 9: Tab Bar Navigation]');
 
-    const urlAfterBack = page.url();
-    assert(urlAfterBack.includes('/timeline/') && !urlAfterBack.includes('/chat'), 'Navigated back to timeline from chat');
+    // Navigate from chat → timeline via tab bar
+    const timelineTab = await page.$('.tab-item[data-tab="timeline"]');
+    await timelineTab.click();
+    await sleep(1000);
 
-    // Navigate to home
-    const homeBackBtn = await page.$('.header-btn');
-    if (homeBackBtn) {
-      await homeBackBtn.click();
-      await sleep(1000);
-    }
+    const urlAfterTimelineTab = page.url();
+    assert(urlAfterTimelineTab.includes('/timeline/') && !urlAfterTimelineTab.includes('/chat'), 'Tab bar navigates to timeline from chat');
+
+    // Navigate from timeline → home via tab bar
+    const homeTab = await page.$('.tab-item[data-tab="home"]');
+    await homeTab.click();
+    await sleep(1000);
 
     const urlHome = page.url();
-    assert(urlHome.endsWith('#/') || urlHome.endsWith('#'), 'Navigated back to home');
+    assert(urlHome.endsWith('#/') || urlHome.endsWith('#'), 'Tab bar navigates to home');
 
     // Check timeline card exists on home
     const timelineCard = await page.$('.timeline-card');
     assert(!!timelineCard, 'Created timeline card visible on home');
+
+    // Navigate to profile via tab bar
+    const profileTab = await page.$('.tab-item[data-tab="profile"]');
+    await profileTab.click();
+    await sleep(1000);
+
+    const profileUrl = page.url();
+    assert(profileUrl.includes('/profile'), 'Tab bar navigates to profile page');
+
+    // Profile tab should be active
+    const profileTabActive = await page.$eval('.tab-item[data-tab="profile"]', el => el.classList.contains('active'));
+    assert(profileTabActive, 'Profile tab is active on profile page');
+
+    // Profile page content
+    const profileAvatar = await page.$('.profile-avatar');
+    assert(!!profileAvatar, 'Profile page shows avatar');
+
+    const profileName = await page.$('.profile-name');
+    assert(!!profileName, 'Profile page shows user name');
+
+    // Navigate back home
+    await homeTab.click();
+    await sleep(500);
 
     // =====================
     // TEST 10: CSS & Layout
@@ -298,6 +355,13 @@ async function main() {
     const appBox = await appEl.boundingBox();
     assert(appBox.width <= 430, 'App max-width constrained to 430px');
     assert(appBox.height > 0, 'App has non-zero height');
+
+    // Tab bar height check
+    const tabBarBox = await page.$eval('#tab-bar', el => {
+      const rect = el.getBoundingClientRect();
+      return { height: rect.height, bottom: rect.bottom };
+    });
+    assert(tabBarBox.height >= 50, 'Tab bar has proper height (>=50px)');
 
     // Check no console errors from our code
     const jsErrors = consoleErrors.filter(e =>
@@ -322,6 +386,10 @@ async function main() {
 
     const guardUrl = page.url();
     assert(guardUrl.includes('/auth'), 'Route guard redirects to auth when not logged in');
+
+    // Tab bar should be hidden again after redirect to auth
+    const tabBarHiddenAfterLogout = await page.$eval('#tab-bar', el => el.classList.contains('hidden'));
+    assert(tabBarHiddenAfterLogout, 'Tab bar hidden after session cleared');
 
     // =====================
     // CONSOLE ERRORS CHECK

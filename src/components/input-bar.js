@@ -1,19 +1,16 @@
 import { h } from '../lib/dom.js'
+import { createLucideIcon } from './icons.js'
 
-const SEND_ICON = '<svg viewBox="0 -960 960 960"><path d="M120-160v-240l320-80-320-80v-240l760 320-760 320Z"/></svg>'
-
-export function createInputBar({ placeholder = '输入你的计划...', onSend, onFocus } = {}) {
+export function createInputBar({ placeholder = '输入你的计划...', onSend, onFocus, aboveTabBar = false } = {}) {
   const input = h('input', {
     className: 'input-field',
     type: 'text',
     placeholder,
   })
 
-  const sendBtn = h('button', {
-    className: 'send-btn',
-    innerHTML: SEND_ICON,
-    title: '发送',
-  })
+  const sendBtn = h('button', { className: 'send-btn', title: '发送' },
+    createLucideIcon('send-horizontal', { size: 18, strokeWidth: 2 })
+  )
 
   function handleSend() {
     const text = input.value.trim()
@@ -34,7 +31,9 @@ export function createInputBar({ placeholder = '输入你的计划...', onSend, 
     input.addEventListener('focus', onFocus)
   }
 
-  const bar = h('footer', { className: 'input-bar' }, input, sendBtn)
+  const bar = h('footer', {
+    className: `input-bar${aboveTabBar ? ' above-tab-bar' : ''}`
+  }, input, sendBtn)
 
   // Public API
   bar.setValue = (val) => { input.value = val }

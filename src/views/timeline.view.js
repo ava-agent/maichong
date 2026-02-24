@@ -39,10 +39,10 @@ export async function showTimelineView(timelineId, container) {
 
   clearChildren(view)
 
-  // Header
+  // Header — no back button (tab bar "首页" tab provides navigation)
   const header = createHeader({
     title: timeline.title,
-    left: [{ icon: 'back', label: '返回', onClick: () => navigate('/') }],
+    left: [],
     right: [
       { icon: 'invite', label: '邀请', onClick: () => showInviteModal(timelineId) },
       { icon: 'share', label: '分享', onClick: () => navigate(`/timeline/${timelineId}/share`) },
@@ -104,16 +104,17 @@ export async function showTimelineView(timelineId, container) {
 
   renderEvents(events)
 
-  // 输入栏
+  // 输入栏 — positioned above tab bar
   const inputBar = createInputBar({
     placeholder: '描述你的计划，AI 帮你安排...',
     onSend: (text) => navigate(`/timeline/${timelineId}/chat?msg=${encodeURIComponent(text)}`),
     onFocus: () => navigate(`/timeline/${timelineId}/chat`),
+    aboveTabBar: true,
   })
   view.appendChild(inputBar)
 
-  // FAB: 手动创建
-  const fab = h('button', { className: 'fab', title: '创建事件', onClick: () => {
+  // FAB: 手动创建 — above tab bar
+  const fab = h('button', { className: 'fab above-tab-bar', title: '创建事件', onClick: () => {
     showEventForm(null, {
       onSave: (data) => createEvent(timelineId, data)
     })

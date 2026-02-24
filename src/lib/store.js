@@ -40,4 +40,5 @@ export const store = createStore({
   chatMessages: [],
   loading: false,
   online: navigator.onLine,
+  lastTimelineId: null,
 })

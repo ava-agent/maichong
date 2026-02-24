@@ -3,6 +3,7 @@ import { signIn, signUp } from '../services/auth.service.js'
 import { isSupabaseConfigured } from '../lib/supabase.js'
 import { navigate } from '../router.js'
 import { store } from '../lib/store.js'
+import { createLucideIcon } from '../components/icons.js'
 
 export function showAuthView(container) {
   clearChildren(container)
@@ -22,19 +23,19 @@ export function showAuthView(container) {
     const form = h('form', { className: 'auth-form' },
       errorEl,
       isSignUp ? h('div', { className: 'form-group' },
-        h('label', { className: 'form-label' }, '\u6635\u79f0'),
-        h('input', { className: 'form-input', type: 'text', name: 'displayName', placeholder: '\u4f60\u7684\u6635\u79f0', required: 'true' })
+        h('label', { className: 'form-label' }, '昵称'),
+        h('input', { className: 'form-input', type: 'text', name: 'displayName', placeholder: '你的昵称', required: 'true' })
       ) : null,
       h('div', { className: 'form-group' },
-        h('label', { className: 'form-label' }, '\u90ae\u7bb1'),
+        h('label', { className: 'form-label' }, '邮箱'),
         h('input', { className: 'form-input', type: 'email', name: 'email', placeholder: 'hello@example.com', required: 'true' })
       ),
       h('div', { className: 'form-group' },
-        h('label', { className: 'form-label' }, '\u5bc6\u7801'),
-        h('input', { className: 'form-input', type: 'password', name: 'password', placeholder: '\u81f3\u5c11 6 \u4f4d', required: 'true', minLength: '6' })
+        h('label', { className: 'form-label' }, '密码'),
+        h('input', { className: 'form-input', type: 'password', name: 'password', placeholder: '至少 6 位', required: 'true', minLength: '6' })
       ),
       h('button', { className: 'btn btn-primary', type: 'submit' },
-        isSignUp ? '\u521b\u5efa\u8d26\u53f7' : '\u767b\u5f55'
+        isSignUp ? '创建账号' : '登录'
       )
     )
 
@@ -44,7 +45,7 @@ export function showAuthView(container) {
       const email = fd.get('email')
       const password = fd.get('password')
       const btn = form.querySelector('.btn-primary')
-      btn.textContent = '\u8bf7\u7a0d\u5019...'
+      btn.textContent = '请稍候...'
       btn.disabled = true
 
       let result
@@ -55,8 +56,8 @@ export function showAuthView(container) {
       }
 
       if (result.error) {
-        errorMsg = result.error.message || '\u64cd\u4f5c\u5931\u8d25\uff0c\u8bf7\u91cd\u8bd5'
-        btn.textContent = isSignUp ? '\u521b\u5efa\u8d26\u53f7' : '\u767b\u5f55'
+        errorMsg = result.error.message || '操作失败，请重试'
+        btn.textContent = isSignUp ? '创建账号' : '登录'
         btn.disabled = false
         errorEl.textContent = errorMsg
         errorEl.classList.add('shake')
@@ -66,14 +67,20 @@ export function showAuthView(container) {
 
     const switchLink = h('a', {
       onClick: () => { isSignUp = !isSignUp; errorMsg = ''; render() }
-    }, isSignUp ? '\u5df2\u6709\u8d26\u53f7\uff1f\u767b\u5f55' : '\u6ca1\u6709\u8d26\u53f7\uff1f\u6ce8\u518c')
+    }, isSignUp ? '已有账号？登录' : '没有账号？注册')
 
     const page = h('div', { className: 'auth-page' },
-      h('div', { className: 'auth-logo' }, '\u8109'),
-      h('h1', { className: 'auth-title' }, '\u8109\u51b2'),
-      h('p', { className: 'auth-subtitle' }, '\u540c\u6b65\u6bcf\u6b21\u8109\u51b2'),
+      h('div', { className: 'auth-decoration' }),
+      h('div', { className: 'auth-brand' },
+        h('div', { className: 'auth-logo' },
+          createLucideIcon('activity', { size: 32, strokeWidth: 2, color: 'white' })
+        ),
+        h('h1', { className: 'auth-title' }, '脉冲'),
+        h('p', { className: 'auth-subtitle' }, 'AI 驱动的生活节律协调助手')
+      ),
       form,
-      h('p', { className: 'auth-switch' }, switchLink)
+      h('p', { className: 'auth-switch' }, switchLink),
+      h('p', { className: 'auth-footer-text' }, '让每一次脉冲，都恰到好处')
     )
 
     container.appendChild(page)
@@ -85,10 +92,15 @@ export function showAuthView(container) {
 
 function showDemoAuth(container) {
   const page = h('div', { className: 'auth-page' },
-    h('div', { className: 'auth-logo' }, '\u8109'),
-    h('h1', { className: 'auth-title' }, '\u8109\u51b2'),
-    h('p', { className: 'auth-subtitle' }, '\u540c\u6b65\u6bcf\u6b21\u8109\u51b2'),
-    h('span', { className: 'demo-badge' }, '\u6f14\u793a\u6a21\u5f0f'),
+    h('div', { className: 'auth-decoration' }),
+    h('div', { className: 'auth-brand' },
+      h('div', { className: 'auth-logo' },
+        createLucideIcon('activity', { size: 32, strokeWidth: 2, color: 'white' })
+      ),
+      h('h1', { className: 'auth-title' }, '脉冲'),
+      h('p', { className: 'auth-subtitle' }, 'AI 驱动的生活节律协调助手')
+    ),
+    h('span', { className: 'demo-badge' }, '演示模式'),
     h('div', { className: 'auth-form' },
       h('button', {
         className: 'btn btn-primary',
@@ -96,13 +108,14 @@ function showDemoAuth(container) {
           const user = {
             id: crypto.randomUUID(),
             email: 'demo@maichong.app',
-            user_metadata: { display_name: '\u6f14\u793a\u7528\u6237' }
+            user_metadata: { display_name: '演示用户' }
           }
           store.setState({ user })
           navigate('/')
         }
-      }, '\u5f00\u59cb\u4f53\u9a8c')
-    )
+      }, '开始体验')
+    ),
+    h('p', { className: 'auth-footer-text' }, '让每一次脉冲，都恰到好处')
   )
   container.appendChild(page)
   return { unmount() {} }

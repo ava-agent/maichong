@@ -1,5 +1,5 @@
 .timeline-container {
-  padding: 12px 16px calc(var(--input-bar-height) + 16px) 16px;
+  padding: 12px 16px calc(var(--input-bar-height) + var(--tab-bar-height) + 16px) 16px;
   position: relative;
   min-height: 100%;
 }
@@ -53,14 +53,15 @@
   display: inline-block;
 }
 
-/* 脉冲卡片 */
+/* 脉冲卡片 - 豆包风格：大圆角、淡阴影、无硬边框 */
 .pulse-card {
   background: var(--bg-card);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   padding: 14px 16px;
   position: relative;
   overflow: hidden;
-  border: 0.5px solid var(--border-color);
+  border: none;
+  box-shadow: var(--shadow-card);
   transition: all var(--transition-fast);
 }
 
@@ -91,9 +92,7 @@
   margin-bottom: 4px;
 }
 
-.card-time::before {
-  display: none;
-}
+.card-time::before { display: none; }
 
 .card-title {
   font-size: 15px;
@@ -117,13 +116,6 @@
   margin-top: 8px;
   font-size: 11px;
   color: var(--text-tertiary);
-}
-
-.card-meta-tag {
-  background: var(--bg-secondary);
-  padding: 2px 8px;
-  border-radius: var(--radius-full);
-  font-size: 11px;
 }
 
 /* 空状态 */
@@ -160,4 +152,128 @@
   color: var(--text-secondary);
   line-height: 1.6;
   max-width: 260px;
+}
+
+/* === 首页时间线列表 === */
+.timeline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 16px 24px;
+}
+
+.greeting-section {
+  padding: 16px 0 8px;
+}
+
+.greeting-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 2px;
+}
+
+.greeting-sub {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* 时间线卡片 - 豆包风格 */
+.timeline-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: none;
+  box-shadow: var(--shadow-card);
+}
+
+.timeline-card:active {
+  transform: scale(0.98);
+  background: var(--bg-secondary);
+}
+
+.timeline-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.timeline-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: var(--primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.timeline-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.timeline-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.timeline-card-meta {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.timeline-card-arrow {
+  flex-shrink: 0;
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+}
+
+/* FAB */
+.fab {
+  position: absolute;
+  bottom: calc(var(--input-bar-height) + 16px);
+  right: 16px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 20;
+  box-shadow: 0 4px 12px rgba(76, 110, 245, 0.3);
+  transition: all var(--transition-fast);
+}
+
+.fab:hover { opacity: 0.9; }
+.fab:active { transform: scale(0.92); }
+
+.fab svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* FAB above tab bar */
+.fab.above-tab-bar {
+  bottom: calc(var(--input-bar-height) + var(--tab-bar-height) + 16px);
+}
+
+/* On home page (no input bar), FAB sits above tab bar */
+.timeline-list ~ .fab.above-tab-bar {
+  bottom: calc(var(--tab-bar-height) + 20px);
 }

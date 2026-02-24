@@ -6,6 +6,7 @@ let currentView = null
 let viewContainer = null
 let beforeEachGuard = null
 let isNavigating = false
+const routeChangeCallbacks = []
 
 export function setViewContainer(container) {
   viewContainer = container
@@ -23,6 +24,10 @@ export function beforeEach(guard) {
 
 export function navigate(path) {
   window.location.hash = path
+}
+
+export function onRouteChange(callback) {
+  routeChangeCallbacks.push(callback)
 }
 
 export function getCurrentPath() {
@@ -72,6 +77,9 @@ async function handleRouteChange() {
     if (viewContainer) {
       currentView = await matched.handler(matched.params, viewContainer)
     }
+
+    // 通知路由变化
+    routeChangeCallbacks.forEach(cb => cb(path))
   } finally {
     isNavigating = false
   }

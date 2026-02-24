@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.1",
+    "lucide": "^0.575.0",
     "modern-screenshot": "^4.4.41"
   },
   "devDependencies": {
