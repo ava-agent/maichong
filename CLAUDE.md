@@ -18,6 +18,7 @@ npm run preview      # Preview production build
 ## Tech Stack
 
 - **Frontend**: Vite + Vanilla JS (ES Modules) + CSS Variables
+- **Icons**: Lucide (linear stroke icons, tree-shakeable ESM imports)
 - **Backend**: Supabase (Auth + PostgreSQL + Realtime)
 - **AI**: GLM-4 (智谱AI, OpenAI-compatible API)
 - **Screenshot**: modern-screenshot (for share card generation)
@@ -52,14 +53,17 @@ Copy `.env.example` to `.env` and fill in keys. The app works in demo mode (loca
 - `auth.view.js` — Login/signup or demo mode entry
 - `timeline-list.view.js` — Home page, list of timelines
 - `timeline.view.js` — Single timeline with pulse cards, FAB for event creation
-- `chat.view.js` — AI chat interface (Doubao-style)
+- `chat.view.js` — AI chat interface with capability cards (Doubao-style)
 - `share-preview.view.js` — Share card preview with download
+- `profile.view.js` — User profile with settings and logout
 
 #### `components/` — Reusable UI pieces
-- `header.js` — Navigation header with icon system (`createIcon('back')`)
+- `header.js` — Navigation header with Lucide icon system (`createIcon('back')`)
+- `icons.js` — Lucide icon wrapper with tree-shakeable imports
+- `tab-bar.js` — Bottom tab navigation (4 tabs: Home, Timeline, AI Chat, Profile)
 - `pulse-card.js` — Event card with status indicator
 - `event-form.js` — Bottom-sheet modal for creating/editing events
-- `input-bar.js` — Bottom input bar (shared between views)
+- `input-bar.js` — Bottom input bar with `aboveTabBar` positioning
 - `chat-message.js` — Chat bubbles, typing indicator, suggestion chips
 - `avatar-stack.js` — Overlapping member avatars
 - `loading-spinner.js` — Loading indicator and overlay
@@ -67,18 +71,21 @@ Copy `.env.example` to `.env` and fill in keys. The app works in demo mode (loca
 - `toast.js` — Toast notifications (`showToast(msg, type)`)
 
 #### `styles/` — CSS modules imported via `styles/index.css`
-- `variables.css` — Design tokens: `--primary-color: #4C6EF5`, spacing, shadows
+- `variables.css` — Design tokens: `--primary-color: #4C6EF5`, `--tab-bar-height: 52px`, shadows
+- `tab-bar.css` — Bottom tab navigation bar
+- `profile.css` — iOS-style grouped list for profile page
 
 ### Routes
 
-| Hash Route | View | Notes |
+| Hash Route | View | Tab |
 |---|---|---|
-| `#/auth` | auth | Login/signup |
-| `#/` | timeline-list | Home page |
-| `#/timeline/:id` | timeline | Event cards with realtime sync |
-| `#/timeline/:id/chat` | chat | AI assistant |
-| `#/timeline/:id/share` | share-preview | Screenshot export |
-| `#/join/:code` | (handler) | Process invite link |
+| `#/auth` | auth | hidden |
+| `#/` | timeline-list | Home |
+| `#/timeline/:id` | timeline | Timeline |
+| `#/timeline/:id/chat` | chat | AI Chat |
+| `#/profile` | profile | Profile |
+| `#/timeline/:id/share` | share-preview | hidden |
+| `#/join/:code` | (handler) | hidden |
 
 ### Database
 

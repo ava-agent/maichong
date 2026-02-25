@@ -14,9 +14,6 @@ import UserPlus from 'lucide/dist/esm/icons/user-plus.js'
 import LogOut from 'lucide/dist/esm/icons/log-out.js'
 import Copy from 'lucide/dist/esm/icons/copy.js'
 import SendHorizontal from 'lucide/dist/esm/icons/send-horizontal.js'
-import Search from 'lucide/dist/esm/icons/search.js'
-import Clock from 'lucide/dist/esm/icons/clock.js'
-import CircleCheck from 'lucide/dist/esm/icons/circle-check.js'
 import ChevronRight from 'lucide/dist/esm/icons/chevron-right.js'
 import Activity from 'lucide/dist/esm/icons/activity.js'
 import Info from 'lucide/dist/esm/icons/info.js'
@@ -36,9 +33,6 @@ const ICON_DATA = {
   'log-out': LogOut,
   copy: Copy,
   'send-horizontal': SendHorizontal,
-  search: Search,
-  clock: Clock,
-  'circle-check': CircleCheck,
   'chevron-right': ChevronRight,
   activity: Activity,
   info: Info,

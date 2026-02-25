@@ -36,6 +36,7 @@ function createHeaderBtn({ icon, label, onClick }) {
   return h('button', {
     className: 'header-btn',
     title: label || '',
+    'aria-label': label || icon,
     onClick
   }, createIcon(icon))
 }

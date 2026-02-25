@@ -59,7 +59,7 @@ export async function showChatView(timelineId, container) {
     chatLog.appendChild(
       createSuggestionChips(SUGGESTIONS, (text) => {
         inputBar.setValue(text)
-        inputBar.querySelector('.send-btn').click()
+        inputBar.querySelector('.send-btn')?.click()
       })
     )
   } else {

@@ -16,9 +16,16 @@ export function initTabBar() {
   tabBarEl = document.getElementById('tab-bar')
   if (!tabBarEl) return
 
+  tabBarEl.setAttribute('role', 'tablist')
+  tabBarEl.setAttribute('aria-label', '主导航')
+
   TABS.forEach(tab => {
     const item = h('div', {
       className: 'tab-item',
+      role: 'tab',
+      'aria-label': tab.label,
+      'aria-selected': 'false',
+      tabIndex: '0',
       dataset: { tab: tab.id },
     },
       createLucideIcon(tab.icon, { size: 24, strokeWidth: 1.75 }),
@@ -67,6 +74,8 @@ export function updateTabBar(path) {
   }
 
   tabBarEl.querySelectorAll('.tab-item').forEach(item => {
-    item.classList.toggle('active', item.dataset.tab === activeId)
+    const isActive = item.dataset.tab === activeId
+    item.classList.toggle('active', isActive)
+    item.setAttribute('aria-selected', String(isActive))
   })
 }
