@@ -361,7 +361,7 @@ async function main() {
       const rect = el.getBoundingClientRect();
       return { height: rect.height, bottom: rect.bottom };
     });
-    assert(tabBarBox.height >= 50, 'Tab bar has proper height (>=50px)');
+    assert(tabBarBox.height >= 49, 'Tab bar has proper height (>=49px, iOS standard)');
 
     // Check no console errors from our code
     const jsErrors = consoleErrors.filter(e =>

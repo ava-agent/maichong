@@ -1,38 +1,46 @@
+/* ========================================
+   PROFILE PAGE - iOS Grouped List Style
+   ======================================== */
+
 .profile-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 48px 16px 24px;
+  padding: 48px var(--space-4) var(--space-6);
 }
 
 .profile-avatar {
   width: 68px;
   height: 68px;
   border-radius: 50%;
-  background: var(--primary-color);
+  background: var(--color-primary);
   color: var(--text-inverse);
-  font-size: 26px;
-  font-weight: 700;
+  font-size: var(--font-title-1);
+  font-weight: var(--font-weight-bold);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 14px;
+  margin-bottom: var(--space-4);
 }
 
 .profile-name {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: var(--font-title-3);
+  font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
-  margin-bottom: 4px;
+  margin-bottom: var(--space-1);
 }
 
 .profile-email {
-  font-size: 14px;
+  font-size: var(--font-footnote);
   color: var(--text-secondary);
 }
 
+/* ========================================
+   PROFILE SECTION (Grouped List)
+   ======================================== */
+
 .profile-section {
-  margin: 8px 16px;
+  margin: var(--space-2) var(--space-4);
   background: var(--bg-card);
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -42,30 +50,70 @@
 .profile-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 15px 16px;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  min-height: var(--touch-target);
   cursor: pointer;
   transition: background var(--transition-fast);
   color: var(--text-primary);
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
 }
 
-.profile-item:not(:last-child) {
-  border-bottom: 0.5px solid var(--border-light);
+.profile-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: var(--space-4);
+  right: 0;
+  height: 0.5px;
+  background: var(--divider);
 }
 
 .profile-item:active {
   background: var(--bg-hover);
 }
 
+.profile-item:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
 .profile-item-label {
   flex: 1;
-  font-size: 15px;
+  font-size: var(--font-subheadline);
 }
 
 .profile-item.danger {
-  color: var(--danger);
+  color: var(--color-danger);
 }
 
 .profile-item svg:last-child {
-  color: var(--text-tertiary);
+  color: var(--text-quaternary);
+}
+
+/* Profile item icon */
+.profile-item-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.profile-item-icon.settings {
+  background: var(--gray-200);
+  color: var(--text-secondary);
+}
+
+.profile-item-icon.info {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.profile-item-icon.logout {
+  background: var(--color-danger-light);
+  color: var(--color-danger);
 }

@@ -1,13 +1,18 @@
+/* ========================================
+   UTILITIES - iOS Style
+   ======================================== */
+
 .hidden { display: none !important; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
 .text-center { text-align: center; }
 .text-secondary { color: var(--text-secondary); }
-.mt-8 { margin-top: 8px; }
-.mt-16 { margin-top: 16px; }
-.mb-8 { margin-bottom: 8px; }
-.mb-16 { margin-bottom: 16px; }
-.gap-8 { gap: 8px; }
-.gap-12 { gap: 12px; }
+.text-tertiary { color: var(--text-tertiary); }
+.mt-8 { margin-top: var(--space-2); }
+.mt-16 { margin-top: var(--space-4); }
+.mb-8 { margin-bottom: var(--space-2); }
+.mb-16 { margin-bottom: var(--space-4); }
+.gap-8 { gap: var(--space-2); }
+.gap-12 { gap: var(--space-3); }
 .flex { display: flex; }
 .flex-col { flex-direction: column; }
 .items-center { align-items: center; }
@@ -15,46 +20,63 @@
 .justify-between { justify-content: space-between; }
 .w-full { width: 100%; }
 
-/* Toast */
+/* ========================================
+   TOAST - iOS Style
+   ======================================== */
+
 #toast-container {
   position: fixed;
-  top: 20px;
+  top: var(--space-5);
   left: 50%;
   transform: translateX(-50%);
-  z-index: 9999;
+  z-index: var(--z-toast);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-2);
   pointer-events: none;
   max-width: 380px;
   width: calc(100% - 32px);
 }
 
 .toast {
-  padding: 10px 20px;
+  padding: var(--space-3) var(--space-5);
   border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: var(--font-footnote);
+  font-weight: var(--font-weight-medium);
   text-align: center;
   pointer-events: auto;
-  animation: toastIn 0.3s var(--ease-smooth), toastOut 0.3s ease 2.7s forwards;
+  min-height: var(--touch-target);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: toastIn var(--duration-slow) var(--ease-smooth), toastOut var(--duration-slow) ease 2.7s forwards;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
-.toast-success { background: var(--success); color: white; }
-.toast-error { background: var(--danger); color: white; }
-.toast-warning { background: var(--warning); color: white; }
-.toast-info { background: var(--primary-color); color: white; }
+.toast-success { background: var(--color-success); color: var(--text-inverse); }
+.toast-error { background: var(--color-danger); color: var(--text-inverse); }
+.toast-warning { background: var(--color-warning); color: var(--text-inverse); }
+.toast-info { background: var(--color-primary); color: var(--text-inverse); }
 
-/* 模态框 */
+/* ========================================
+   MODAL (Bottom Sheet) - iOS Style
+   ======================================== */
+
 .modal-overlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.4);
-  z-index: 100;
+  z-index: var(--z-modal);
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  animation: fadeIn 0.2s ease;
+  animation: fadeIn var(--duration-normal) var(--ease-smooth);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .modal-content {
@@ -62,31 +84,34 @@
   width: 100%;
   max-width: 430px;
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  padding: 8px 20px 24px;
-  padding-bottom: calc(24px + env(safe-area-inset-bottom, 0));
-  animation: modalSlideUp 0.3s var(--ease-smooth);
+  padding: var(--space-2) var(--space-5) var(--space-6);
+  padding-bottom: calc(var(--space-6) + env(safe-area-inset-bottom, 0));
+  animation: modalSlideUp var(--duration-slow) var(--ease-decelerate);
   max-height: 85vh;
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .modal-handle {
-  width: 32px;
-  height: 4px;
-  background: var(--text-tertiary);
-  border-radius: 2px;
-  margin: 8px auto 16px;
+  width: 36px;
+  height: 5px;
+  background: var(--gray-400);
+  border-radius: 2.5px;
+  margin: var(--space-2) auto var(--space-4);
+  cursor: grab;
 }
 
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: var(--space-5);
 }
 
 .modal-title {
-  font-size: 17px;
-  font-weight: 600;
+  font-size: var(--font-headline);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
 }
 
 .modal-close {
@@ -94,14 +119,26 @@
   height: 28px;
   border-radius: 50%;
   background: var(--bg-secondary);
-  font-size: 16px;
   color: var(--text-tertiary);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+  border: none;
 }
 
-.modal-close:hover { background: var(--border-color); color: var(--text-primary); }
+.modal-close:hover {
+  background: var(--gray-300);
+  color: var(--text-primary);
+}
 
+.modal-close:active {
+  background: var(--gray-400);
+}
+
+.modal-close:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}

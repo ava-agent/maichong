@@ -1,18 +1,23 @@
+/* ========================================
+   HEADER - iOS Style
+   ======================================== */
+
 .view-header {
   height: var(--header-height);
   flex-shrink: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 4px;
+  padding: 0 var(--space-1);
   background: var(--bg-primary);
-  box-shadow: 0 0.5px 0 var(--border-light);
-  z-index: 10;
+  box-shadow: 0 0.5px 0 var(--divider);
+  z-index: var(--z-sticky);
 }
 
 .view-title {
-  font-size: 17px;
-  font-weight: 600;
+  font-size: var(--font-headline);
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-family);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -20,26 +25,30 @@
   flex: 1;
   text-align: center;
   color: var(--text-primary);
+  letter-spacing: -0.41px;
 }
 
 .header-left, .header-right {
   display: flex;
   align-items: center;
   gap: 0;
-  min-width: 44px;
+  min-width: var(--touch-target);
 }
 
 .header-right { justify-content: flex-end; }
 
+/* Header Button */
 .header-btn {
-  width: 44px;
-  height: 44px;
+  width: var(--touch-target);
+  height: var(--touch-target);
   border-radius: var(--radius-sm);
-  color: var(--text-primary);
+  color: var(--color-primary);
   display: flex;
   justify-content: center;
   align-items: center;
   transition: all var(--transition-fast);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .header-btn:hover {
@@ -48,15 +57,24 @@
 
 .header-btn:active {
   transform: scale(0.92);
-  opacity: 0.7;
+  background-color: var(--bg-active);
+}
+
+.header-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
 }
 
 .header-btn svg {
   width: 22px;
   height: 22px;
+  stroke-width: 1.75;
 }
 
-/* 参与者头像 */
+/* ========================================
+   AVATARS - iOS Style
+   ======================================== */
+
 .participants {
   display: flex;
   align-items: center;
@@ -70,12 +88,14 @@
   border: 2px solid var(--bg-primary);
   margin-left: -6px;
   object-fit: cover;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: var(--font-caption-2);
+  font-weight: var(--font-weight-semibold);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
+  background: var(--gray-300);
+  color: var(--text-secondary);
 }
 
 .avatar:first-child { margin-left: 0; }

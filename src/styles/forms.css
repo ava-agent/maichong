@@ -1,50 +1,89 @@
-/* 表单 */
+/* ========================================
+   FORMS & BUTTONS - iOS Style
+   ======================================== */
+
+/* === FORM GROUP === */
 .form-group {
-  margin-bottom: 16px;
+  margin-bottom: var(--space-4);
 }
 
 .form-label {
   display: block;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: var(--font-footnote);
+  font-weight: var(--font-weight-medium);
   color: var(--text-secondary);
-  margin-bottom: 6px;
+  margin-bottom: var(--space-2);
+  letter-spacing: -0.08px;
 }
 
+/* === TEXT INPUT === */
 .form-input {
   width: 100%;
-  height: 44px;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 0 14px;
-  font-size: 15px;
+  height: var(--input-height);
+  border: 1px solid transparent;
+  border-radius: var(--input-radius);
+  padding: 0 var(--space-4);
+  font-size: var(--font-subheadline);
+  font-family: var(--font-family);
   color: var(--text-primary);
-  background: var(--bg-primary);
+  background: var(--bg-input);
   transition: all var(--transition-fast);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.form-input:hover {
+  background: var(--gray-200);
 }
 
 .form-input:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px var(--primary-light);
+  background: var(--bg-primary);
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15);
+  outline: none;
 }
 
-.form-input::placeholder { color: var(--text-tertiary); }
+.form-input::placeholder {
+  color: var(--text-quaternary);
+}
 
+.form-input:disabled {
+  background: var(--gray-100);
+  color: var(--text-disabled);
+  cursor: not-allowed;
+}
+
+.form-input.error {
+  border-color: var(--border-error);
+  background: var(--color-danger-light);
+}
+
+.form-input.error:focus {
+  box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.15);
+}
+
+.form-input.readonly {
+  background: var(--gray-100);
+  cursor: default;
+}
+
+/* === TEXTAREA === */
 .form-textarea {
-  min-height: 80px;
-  padding: 10px 14px;
+  min-height: 100px;
+  padding: var(--space-3) var(--space-4);
   resize: vertical;
-  border-radius: var(--radius-md);
+  line-height: 1.5;
 }
 
+/* === FORM ROW === */
 .form-row {
   display: flex;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .form-row .form-group { flex: 1; }
 
-/* 开关 */
+/* === TOGGLE SWITCH (iOS Standard) === */
 .toggle-wrap {
   display: flex;
   align-items: center;
@@ -53,96 +92,179 @@
 
 .toggle {
   position: relative;
-  width: 44px;
-  height: 26px;
+  width: var(--toggle-width);
+  height: var(--toggle-height);
   appearance: none;
   -webkit-appearance: none;
-  background: var(--text-tertiary);
-  border-radius: 13px;
+  background: var(--gray-400);
+  border-radius: calc(var(--toggle-height) / 2);
   cursor: pointer;
-  transition: background var(--transition-fast);
+  transition: background var(--transition-normal);
 }
 
-.toggle:checked { background: var(--primary-color); }
+.toggle:checked {
+  background: var(--color-success);
+}
 
 .toggle::before {
   content: '';
   position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 20px;
-  height: 20px;
+  top: 2px;
+  left: 2px;
+  width: var(--toggle-thumb);
+  height: var(--toggle-thumb);
   border-radius: 50%;
   background: white;
-  box-shadow: var(--shadow-xs);
-  transition: transform 0.2s var(--ease-spring);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15), 0 1px 1px rgba(0, 0, 0, 0.16);
+  transition: transform var(--transition-spring);
 }
 
-.toggle:checked::before { transform: translateX(18px); }
+.toggle:checked::before {
+  transform: translateX(calc(var(--toggle-width) - var(--toggle-thumb) - 4px));
+}
 
-/* 按钮 - 更圆润的豆包风格 */
+.toggle:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.toggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ========================================
+   BUTTONS - iOS Style
+   ======================================== */
+
 .btn {
-  height: 46px;
-  border-radius: var(--radius-md);
-  padding: 0 20px;
-  font-size: 15px;
-  font-weight: 500;
+  height: var(--btn-height-md);
+  border-radius: var(--btn-radius-md);
+  padding: 0 var(--space-5);
+  font-size: var(--font-subheadline);
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-family);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: var(--space-2);
   transition: all var(--transition-fast);
   border: none;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
-.btn:active { transform: scale(0.98); }
+.btn:active {
+  transform: scale(0.98);
+}
 
+.btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Primary Button */
 .btn-primary {
-  background: var(--primary-color);
-  color: white;
+  background: var(--color-primary);
+  color: var(--text-inverse);
   width: 100%;
 }
 
-.btn-primary:hover { opacity: 0.9; }
+.btn-primary:hover {
+  background: var(--color-primary-hover);
+}
 
+.btn-primary:active {
+  background: var(--color-primary-active);
+  transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+  background: var(--gray-400);
+}
+
+/* Secondary Button */
 .btn-secondary {
   background: var(--bg-secondary);
   color: var(--text-primary);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border-primary);
 }
 
+.btn-secondary:hover {
+  background: var(--gray-300);
+}
+
+.btn-secondary:active {
+  background: var(--gray-400);
+}
+
+/* Danger Button */
 .btn-danger {
-  background: var(--danger);
-  color: white;
+  background: var(--color-danger);
+  color: var(--text-inverse);
 }
 
+.btn-danger:hover {
+  background: var(--color-danger-hover);
+}
+
+.btn-danger:active {
+  background: var(--color-danger-active);
+}
+
+/* Ghost Button */
 .btn-ghost {
-  background: none;
-  color: var(--text-secondary);
-  padding: 0 12px;
+  background: transparent;
+  color: var(--color-primary);
 }
 
+.btn-ghost:hover {
+  background: var(--color-primary-bg);
+}
+
+.btn-ghost:active {
+  background: var(--bg-selected);
+}
+
+/* Button Sizes */
 .btn-sm {
-  height: 34px;
-  font-size: 13px;
-  padding: 0 14px;
+  height: var(--btn-height-sm);
+  font-size: var(--font-footnote);
+  padding: 0 var(--space-4);
+  border-radius: var(--btn-radius-sm);
 }
 
-/* === 认证页面 - 豆包风格增强 === */
+.btn-lg {
+  height: var(--btn-height-lg);
+  font-size: var(--font-callout);
+  padding: 0 var(--space-6);
+  border-radius: var(--btn-radius-lg);
+}
+
+/* ========================================
+   AUTH PAGE - iOS Style
+   ======================================== */
+
 .auth-page {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px 28px;
+  padding: var(--space-10) var(--space-6);
   min-height: 100%;
   background: var(--bg-primary);
   position: relative;
   overflow: hidden;
 }
 
-/* 装饰性渐变圆球 */
+/* Decorative gradient orb */
 .auth-decoration {
   position: absolute;
   top: -80px;
@@ -150,42 +272,42 @@
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(76, 110, 245, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(0, 122, 255, 0.06) 0%, transparent 70%);
   pointer-events: none;
 }
 
-/* 品牌区域 */
+/* Brand section */
 .auth-brand {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: var(--space-10);
 }
 
 .auth-logo {
   width: 72px;
   height: 72px;
-  background: var(--primary-color);
-  border-radius: 20px;
+  background: var(--color-primary);
+  border-radius: var(--radius-xl);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   font-size: 28px;
   font-weight: 800;
-  margin-bottom: 16px;
-  box-shadow: 0 4px 16px rgba(76, 110, 245, 0.3);
+  margin-bottom: var(--space-4);
+  box-shadow: 0 4px 16px rgba(0, 122, 255, 0.25);
 }
 
 .auth-title {
-  font-size: 26px;
-  font-weight: 700;
-  margin-bottom: 4px;
+  font-size: var(--font-title-2);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-1);
   color: var(--text-primary);
 }
 
 .auth-subtitle {
-  font-size: 14px;
+  font-size: var(--font-footnote);
   color: var(--text-secondary);
   margin-bottom: 0;
 }
@@ -197,40 +319,40 @@
 
 .auth-switch {
   text-align: center;
-  margin-top: 24px;
-  font-size: 14px;
+  margin-top: var(--space-6);
+  font-size: var(--font-footnote);
   color: var(--text-secondary);
 }
 
 .auth-switch a {
-  color: var(--primary-color);
-  font-weight: 600;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
 }
 
 .auth-error {
-  color: var(--danger);
-  font-size: 13px;
+  color: var(--color-danger);
+  font-size: var(--font-footnote);
   text-align: center;
-  margin-bottom: 12px;
+  margin-bottom: var(--space-3);
   min-height: 20px;
 }
 
-/* demo提示 */
+/* Demo badge */
 .demo-badge {
-  background: var(--primary-light);
-  color: var(--primary-color);
-  padding: 4px 12px;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
-  font-size: 12px;
-  font-weight: 500;
-  margin-bottom: 28px;
+  font-size: var(--font-caption-1);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-6);
 }
 
-/* 底部 tagline */
+/* Footer tagline */
 .auth-footer-text {
   position: absolute;
-  bottom: 32px;
-  font-size: 12px;
+  bottom: var(--space-8);
+  font-size: var(--font-caption-1);
   color: var(--text-tertiary);
 }
