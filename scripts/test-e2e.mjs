@@ -88,14 +88,8 @@ async function main() {
     assert(!!demoBtn, 'Demo "开始体验" button exists');
 
     // Auth page enhancements
-    const authDecoration = await page.$('.auth-decoration');
-    assert(!!authDecoration, 'Auth decoration element exists');
-
     const authBrand = await page.$('.auth-brand');
     assert(!!authBrand, 'Auth brand section exists');
-
-    const authFooter = await page.$('.auth-footer-text');
-    assert(!!authFooter, 'Auth footer tagline exists');
 
     // Tab bar should be HIDDEN on auth page
     const tabBarHidden = await page.$eval('#tab-bar', el => el.classList.contains('hidden'));

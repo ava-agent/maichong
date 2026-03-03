@@ -1,5 +1,5 @@
 /* ========================================
-   HEADER - iOS Style
+   HEADER - iOS Navigation Bar Style
    ======================================== */
 
 .view-header {
@@ -10,7 +10,7 @@
   align-items: center;
   padding: 0 var(--space-1);
   background: var(--bg-primary);
-  box-shadow: 0 0.5px 0 var(--divider);
+  border-bottom: 0.5px solid var(--divider);
   z-index: var(--z-sticky);
 }
 
@@ -25,7 +25,6 @@
   flex: 1;
   text-align: center;
   color: var(--text-primary);
-  letter-spacing: -0.41px;
 }
 
 .header-left, .header-right {
@@ -37,7 +36,7 @@
 
 .header-right { justify-content: flex-end; }
 
-/* Header Button */
+/* Header Button - iOS style */
 .header-btn {
   width: var(--touch-target);
   height: var(--touch-target);
@@ -46,29 +45,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all var(--transition-fast);
+  transition: opacity var(--transition-fast);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-}
-
-.header-btn:hover {
-  background-color: var(--bg-hover);
+  background: transparent;
+  border: none;
 }
 
 .header-btn:active {
-  transform: scale(0.92);
-  background-color: var(--bg-active);
-}
-
-.header-btn:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: -2px;
+  opacity: 0.5;
 }
 
 .header-btn svg {
-  width: 22px;
-  height: 22px;
-  stroke-width: 1.75;
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.5;
 }
 
 /* ========================================
@@ -89,7 +80,7 @@
   margin-left: -6px;
   object-fit: cover;
   font-size: var(--font-caption-2);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-medium);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -101,7 +92,7 @@
 .avatar:first-child { margin-left: 0; }
 
 .avatar.avatar-more {
-  background-color: var(--bg-secondary);
+  background-color: var(--gray-200);
   color: var(--text-tertiary);
   font-size: 10px;
 }

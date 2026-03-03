@@ -39,7 +39,7 @@
 }
 
 .toast {
-  padding: var(--space-3) var(--space-5);
+  padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-sm);
   font-size: var(--font-footnote);
   font-weight: var(--font-weight-medium);
@@ -50,8 +50,6 @@
   align-items: center;
   justify-content: center;
   animation: toastIn var(--duration-slow) var(--ease-smooth), toastOut var(--duration-slow) ease 2.7s forwards;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
 }
 
 .toast-success { background: var(--color-success); color: var(--text-inverse); }
@@ -75,17 +73,15 @@
   justify-content: center;
   align-items: flex-end;
   animation: fadeIn var(--duration-normal) var(--ease-smooth);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
 }
 
 .modal-content {
   background: var(--bg-primary);
   width: 100%;
   max-width: 430px;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  padding: var(--space-2) var(--space-5) var(--space-6);
-  padding-bottom: calc(var(--space-6) + env(safe-area-inset-bottom, 0));
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  padding: var(--space-2) var(--space-4) var(--space-5);
+  padding-bottom: calc(var(--space-5) + env(safe-area-inset-bottom, 0));
   animation: modalSlideUp var(--duration-slow) var(--ease-decelerate);
   max-height: 85vh;
   overflow-y: auto;
@@ -95,7 +91,7 @@
 .modal-handle {
   width: 36px;
   height: 5px;
-  background: var(--gray-400);
+  background: var(--gray-300);
   border-radius: 2.5px;
   margin: var(--space-2) auto var(--space-4);
   cursor: grab;
@@ -105,7 +101,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--space-5);
+  margin-bottom: var(--space-4);
 }
 
 .modal-title {
@@ -118,27 +114,18 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: var(--bg-secondary);
-  color: var(--text-tertiary);
+  background: var(--gray-100);
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: background var(--transition-fast);
   -webkit-tap-highlight-color: transparent;
   border: none;
-}
-
-.modal-close:hover {
-  background: var(--gray-300);
-  color: var(--text-primary);
+  font-size: 16px;
 }
 
 .modal-close:active {
-  background: var(--gray-400);
-}
-
-.modal-close:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+  background: var(--gray-200);
 }

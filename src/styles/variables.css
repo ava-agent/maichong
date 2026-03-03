@@ -1,57 +1,38 @@
 :root {
   /* ========================================
      MAICHONG DESIGN SYSTEM
-     iOS-Style | WCAG AA Compliant | 8pt Grid
+     Apple Human Interface Guidelines
      ======================================== */
 
-  /* === PRIMARY COLORS (iOS System Blue) === */
+  /* === PRIMARY COLORS (iOS System) === */
   --color-primary: #007AFF;
   --color-primary-hover: #0066D6;
   --color-primary-active: #004E9A;
-  --color-primary-light: #E5F1FF;
-  --color-primary-bg: rgba(0, 122, 255, 0.08);
+  --color-primary-light: rgba(0, 122, 255, 0.1);
+  --color-primary-bg: rgba(0, 122, 255, 0.05);
 
-  /* Legacy aliases (for backward compatibility) */
+  /* Legacy aliases */
   --primary-color: var(--color-primary);
   --primary-dark: var(--color-primary-hover);
   --primary-light: var(--color-primary-light);
   --primary-bg: var(--color-primary-bg);
 
-  /* === SECONDARY COLORS === */
-  --color-secondary: #5856D6;
-  --color-secondary-hover: #4A48C7;
-  --color-secondary-light: #EDEAFF;
-
   /* === SEMANTIC COLORS (iOS System) === */
   --color-success: #34C759;
-  --color-success-hover: #2DB84E;
-  --color-success-active: #248A3D;
-  --color-success-light: #E3F9E9;
-  --color-success-text: #1B7F37;
-
+  --color-success-light: rgba(52, 199, 89, 0.1);
   --color-warning: #FF9500;
-  --color-warning-hover: #E68600;
-  --color-warning-active: #C93400;
-  --color-warning-light: #FFF4E5;
-  --color-warning-text: #9A5B13;
-
+  --color-warning-light: rgba(255, 149, 0, 0.1);
   --color-danger: #FF3B30;
-  --color-danger-hover: #E5352B;
-  --color-danger-active: #C62828;
-  --color-danger-light: #FFEBEA;
-  --color-danger-text: #C62828;
-
-  --color-info: #007AFF;
-  --color-info-light: #E5F1FF;
+  --color-danger-light: rgba(255, 59, 48, 0.1);
 
   /* Legacy aliases */
   --success: var(--color-success);
   --warning: var(--color-warning);
   --danger: var(--color-danger);
-  --info: var(--color-info);
+  --info: var(--color-primary);
 
-  /* === GRAY SCALE (iOS 11-level) === */
-  --gray-50: #FAFAFA;
+  /* === GRAY SCALE (iOS) === */
+  --gray-50: #FFFFFF;
   --gray-100: #F2F2F7;
   --gray-200: #E5E5EA;
   --gray-300: #D1D1D6;
@@ -63,17 +44,15 @@
   --gray-900: #3A3A3C;
   --gray-950: #1C1C1E;
 
-  /* === TEXT COLORS (WCAG AA Compliant) === */
-  --text-primary: #1C1C1E;      /* 16.1:1 on white */
-  --text-secondary: #636366;    /* 5.33:1 on white */
-  --text-tertiary: #8E8E93;     /* 3.48:1 on white (18px+) */
-  --text-quaternary: #AEAEB2;   /* 2.61:1 (decorative only) */
-  --text-disabled: #C7C7CC;
+  /* === TEXT COLORS (iOS) === */
+  --text-primary: #000000;
+  --text-secondary: rgba(60, 60, 67, 0.6);
+  --text-tertiary: rgba(60, 60, 67, 0.3);
+  --text-quaternary: rgba(60, 60, 67, 0.18);
   --text-inverse: #FFFFFF;
-  --text-link: #007AFF;         /* 4.56:1 on white */
-  --text-link-visited: #5856D6;
+  --text-link: var(--color-primary);
 
-  /* === BACKGROUND COLORS === */
+  /* === BACKGROUND COLORS (iOS) === */
   --bg-primary: #FFFFFF;
   --bg-secondary: #F2F2F7;
   --bg-tertiary: #FFFFFF;
@@ -81,28 +60,24 @@
   --bg-elevated: #FFFFFF;
   --bg-hover: rgba(0, 0, 0, 0.04);
   --bg-active: rgba(0, 0, 0, 0.08);
-  --bg-selected: rgba(0, 122, 255, 0.12);
-  --bg-chat: #F2F2F7;
-  --bg-input: #F2F2F7;
+  --bg-selected: rgba(0, 122, 255, 0.1);
+  --bg-chat: #FFFFFF;
+  --bg-input: #FFFFFF;
   --bg-card: #FFFFFF;
 
-  /* === BORDER COLORS === */
-  --border-primary: #E5E5EA;
-  --border-secondary: #F2F2F7;
-  --border-tertiary: #D1D1D6;
-  --border-focus: #007AFF;
-  --border-error: #FF3B30;
-  --border-success: #34C759;
+  /* === BORDER COLORS (iOS) === */
+  --border-primary: rgba(60, 60, 67, 0.1);
+  --border-secondary: rgba(60, 60, 67, 0.05);
+  --border-focus: var(--color-primary);
   --divider: rgba(60, 60, 67, 0.12);
-  --divider-strong: #E5E5EA;
 
   /* Legacy aliases */
   --border-color: var(--border-primary);
   --border-light: var(--border-secondary);
 
-  /* === TYPOGRAPHY === */
-  --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Noto Sans SC", "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
-  --font-mono: "SF Mono", SFMono-Regular, ui-monospace, Menlo, Monaco, "Cascadia Mono", "Courier New", monospace;
+  /* === TYPOGRAPHY (SF Pro) === */
+  --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "PingFang SC", "Helvetica Neue", sans-serif;
+  --font-mono: "SF Mono", ui-monospace, Menlo, Monaco, monospace;
 
   /* Font Weights */
   --font-weight-regular: 400;
@@ -110,52 +85,41 @@
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
-  /* Type Scale (iOS Dynamic Type) */
+  /* Type Scale (iOS Typography - exact point sizes) */
   --font-large-title: 34px;
-  --font-large-title-weight: 700;
   --font-large-title-height: 41px;
 
   --font-title-1: 28px;
-  --font-title-1-weight: 700;
   --font-title-1-height: 34px;
 
   --font-title-2: 22px;
-  --font-title-2-weight: 700;
   --font-title-2-height: 28px;
 
   --font-title-3: 20px;
-  --font-title-3-weight: 600;
   --font-title-3-height: 25px;
 
   --font-headline: 17px;
-  --font-headline-weight: 600;
   --font-headline-height: 22px;
 
   --font-body: 17px;
-  --font-body-weight: 400;
   --font-body-height: 22px;
 
   --font-callout: 16px;
-  --font-callout-weight: 400;
   --font-callout-height: 21px;
 
   --font-subheadline: 15px;
-  --font-subheadline-weight: 400;
   --font-subheadline-height: 20px;
 
   --font-footnote: 13px;
-  --font-footnote-weight: 400;
   --font-footnote-height: 18px;
 
   --font-caption-1: 12px;
-  --font-caption-1-weight: 400;
   --font-caption-1-height: 16px;
 
   --font-caption-2: 11px;
-  --font-caption-2-weight: 400;
   --font-caption-2-height: 13px;
 
-  /* === SPACING (8pt Grid) === */
+  /* === SPACING (iOS 8pt Grid) === */
   --space-0: 0;
   --space-1: 4px;
   --space-2: 8px;
@@ -166,94 +130,62 @@
   --space-8: 32px;
   --space-10: 40px;
   --space-12: 48px;
-  --space-16: 64px;
 
-  /* === BORDER RADIUS === */
+  /* === BORDER RADIUS (iOS) === */
   --radius-xs: 4px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-  --radius-2xl: 24px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
   --radius-full: 9999px;
 
-  /* === SHADOWS (Layered iOS-style) === */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.06), 0 8px 16px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.08), 0 16px 32px rgba(0, 0, 0, 0.08);
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.04);
-  --shadow-elevated: 0 2px 8px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(0, 0, 0, 0.12);
+  /* === SHADOWS (iOS - extremely subtle) === */
+  --shadow-xs: 0 0.5px 0 rgba(0, 0, 0, 0.08);
+  --shadow-sm: 0 0.5px 0 rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-card: none;
+  --shadow-elevated: 0 2px 12px rgba(0, 0, 0, 0.1);
 
   /* === COMPONENT SIZES (iOS HIG) === */
   --header-height: 44px;
   --tab-bar-height: 49px;
-  --input-bar-height: 52px;
-  --nav-bar-height: 44px;
-  --toolbar-height: 44px;
+  --input-bar-height: 50px;
   --touch-target: 44px;
 
   /* Button Sizes */
   --btn-height-sm: 32px;
   --btn-height-md: 44px;
   --btn-height-lg: 50px;
-  --btn-radius-sm: 8px;
-  --btn-radius-md: 12px;
-  --btn-radius-lg: 16px;
 
   /* Input Sizes */
   --input-height: 44px;
-  --input-height-lg: 50px;
-  --input-radius: 12px;
 
-  /* Toggle Sizes (iOS standard) */
+  /* Toggle Sizes */
   --toggle-width: 51px;
   --toggle-height: 31px;
   --toggle-thumb: 27px;
 
-  /* === ANIMATIONS (iOS Timing) === */
-  /* Timing Functions */
-  --ease-linear: linear;
-  --ease-in: cubic-bezier(0.42, 0, 1, 1);
-  --ease-out: cubic-bezier(0, 0, 0.58, 1);
-  --ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);
+  /* === ANIMATIONS (iOS) === */
   --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
   --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
-  --ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
 
-  /* Durations */
-  --duration-instant: 0ms;
-  --duration-fast: 100ms;
-  --duration-normal: 200ms;
-  --duration-slow: 300ms;
-  --duration-slower: 400ms;
+  --duration-fast: 0.1s;
+  --duration-normal: 0.2s;
+  --duration-slow: 0.3s;
 
-  /* Preset Transitions */
   --transition-fast: 0.1s var(--ease-smooth);
   --transition-normal: 0.2s var(--ease-smooth);
-  --transition-slow: 0.3s var(--ease-smooth);
   --transition-spring: 0.35s var(--ease-spring);
-  --transition-bounce: 0.4s var(--ease-bounce);
 
   /* === SAFE AREA === */
   --safe-area-top: env(safe-area-inset-top, 0px);
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
-  --safe-area-left: env(safe-area-inset-left, 0px);
-  --safe-area-right: env(save-area-inset-right, 0px);
 
-  /* Computed heights with safe areas */
-  --header-height-safe: calc(var(--header-height) + var(--safe-area-top));
-  --tab-bar-height-safe: calc(var(--tab-bar-height) + var(--safe-area-bottom));
-
-  /* === Z-INDEX SCALE === */
-  --z-base: 0;
-  --z-dropdown: 100;
-  --z-sticky: 200;
-  --z-fixed: 300;
-  --z-overlay: 400;
+  /* === Z-INDEX === */
+  --z-sticky: 100;
+  --z-fixed: 200;
   --z-modal: 500;
   --z-toast: 1000;
-  --z-tooltip: 1100;
 }

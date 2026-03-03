@@ -1,5 +1,5 @@
 /* ========================================
-   FORMS & BUTTONS - iOS Style
+   FORMS & BUTTONS - Apple HIG
    ======================================== */
 
 /* === FORM GROUP === */
@@ -13,21 +13,20 @@
   font-weight: var(--font-weight-medium);
   color: var(--text-secondary);
   margin-bottom: var(--space-2);
-  letter-spacing: -0.08px;
 }
 
-/* === TEXT INPUT === */
+/* === TEXT INPUT (iOS Style) === */
 .form-input {
   width: 100%;
   height: var(--input-height);
-  border: 1px solid transparent;
-  border-radius: var(--input-radius);
+  border: none;
+  border-radius: var(--radius-md);
   padding: 0 var(--space-4);
-  font-size: var(--font-subheadline);
+  font-size: var(--font-body);
   font-family: var(--font-family);
   color: var(--text-primary);
-  background: var(--bg-input);
-  transition: all var(--transition-fast);
+  background: var(--gray-100);
+  transition: background var(--transition-fast);
   -webkit-appearance: none;
   appearance: none;
 }
@@ -38,33 +37,21 @@
 
 .form-input:focus {
   background: var(--bg-primary);
-  border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15);
   outline: none;
 }
 
 .form-input::placeholder {
-  color: var(--text-quaternary);
+  color: var(--text-tertiary);
 }
 
 .form-input:disabled {
   background: var(--gray-100);
-  color: var(--text-disabled);
+  color: var(--text-tertiary);
   cursor: not-allowed;
 }
 
 .form-input.error {
-  border-color: var(--border-error);
   background: var(--color-danger-light);
-}
-
-.form-input.error:focus {
-  box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.15);
-}
-
-.form-input.readonly {
-  background: var(--gray-100);
-  cursor: default;
 }
 
 /* === TEXTAREA === */
@@ -72,7 +59,8 @@
   min-height: 100px;
   padding: var(--space-3) var(--space-4);
   resize: vertical;
-  line-height: 1.5;
+  line-height: 1.4;
+  border-radius: var(--radius-md);
 }
 
 /* === FORM ROW === */
@@ -83,7 +71,7 @@
 
 .form-row .form-group { flex: 1; }
 
-/* === TOGGLE SWITCH (iOS Standard) === */
+/* === TOGGLE SWITCH (iOS Native) === */
 .toggle-wrap {
   display: flex;
   align-items: center;
@@ -96,7 +84,7 @@
   height: var(--toggle-height);
   appearance: none;
   -webkit-appearance: none;
-  background: var(--gray-400);
+  background: var(--gray-300);
   border-radius: calc(var(--toggle-height) / 2);
   cursor: pointer;
   transition: background var(--transition-normal);
@@ -115,17 +103,12 @@
   height: var(--toggle-thumb);
   border-radius: 50%;
   background: white;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15), 0 1px 1px rgba(0, 0, 0, 0.16);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   transition: transform var(--transition-spring);
 }
 
 .toggle:checked::before {
   transform: translateX(calc(var(--toggle-width) - var(--toggle-thumb) - 4px));
-}
-
-.toggle:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
 }
 
 .toggle:disabled {
@@ -134,122 +117,76 @@
 }
 
 /* ========================================
-   BUTTONS - iOS Style
+   BUTTONS - Apple HIG
    ======================================== */
 
 .btn {
   height: var(--btn-height-md);
-  border-radius: var(--btn-radius-md);
+  border-radius: var(--radius-md);
   padding: 0 var(--space-5);
-  font-size: var(--font-subheadline);
+  font-size: var(--font-body);
   font-weight: var(--font-weight-semibold);
   font-family: var(--font-family);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  transition: all var(--transition-fast);
+  transition: opacity var(--transition-fast);
   border: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  user-select: none;
 }
 
 .btn:active {
-  transform: scale(0.98);
-}
-
-.btn:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+  opacity: 0.7;
 }
 
 .btn:disabled {
-  opacity: 0.5;
+  opacity: 0.3;
   cursor: not-allowed;
-  transform: none;
 }
 
-/* Primary Button */
+/* Primary Button (Filled) */
 .btn-primary {
   background: var(--color-primary);
   color: var(--text-inverse);
   width: 100%;
 }
 
-.btn-primary:hover {
-  background: var(--color-primary-hover);
-}
-
-.btn-primary:active {
-  background: var(--color-primary-active);
-  transform: scale(0.98);
-}
-
-.btn-primary:disabled {
-  background: var(--gray-400);
-}
-
-/* Secondary Button */
+/* Secondary Button (Gray) */
 .btn-secondary {
-  background: var(--bg-secondary);
+  background: var(--gray-200);
   color: var(--text-primary);
-  border: 1px solid var(--border-primary);
 }
 
-.btn-secondary:hover {
-  background: var(--gray-300);
-}
-
-.btn-secondary:active {
-  background: var(--gray-400);
-}
-
-/* Danger Button */
+/* Danger Button (Red) */
 .btn-danger {
   background: var(--color-danger);
   color: var(--text-inverse);
 }
 
-.btn-danger:hover {
-  background: var(--color-danger-hover);
-}
-
-.btn-danger:active {
-  background: var(--color-danger-active);
-}
-
-/* Ghost Button */
+/* Ghost Button (Tinted) */
 .btn-ghost {
   background: transparent;
   color: var(--color-primary);
 }
 
-.btn-ghost:hover {
-  background: var(--color-primary-bg);
-}
-
-.btn-ghost:active {
-  background: var(--bg-selected);
-}
-
 /* Button Sizes */
 .btn-sm {
   height: var(--btn-height-sm);
-  font-size: var(--font-footnote);
+  font-size: var(--font-subheadline);
   padding: 0 var(--space-4);
-  border-radius: var(--btn-radius-sm);
+  border-radius: var(--radius-sm);
 }
 
 .btn-lg {
   height: var(--btn-height-lg);
   font-size: var(--font-callout);
   padding: 0 var(--space-6);
-  border-radius: var(--btn-radius-lg);
 }
 
 /* ========================================
-   AUTH PAGE - iOS Style
+   AUTH PAGE - Apple Minimal Style
    ======================================== */
 
 .auth-page {
@@ -257,64 +194,48 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: var(--space-10) var(--space-6);
+  padding: var(--space-8) var(--space-6);
   min-height: 100%;
   background: var(--bg-primary);
-  position: relative;
-  overflow: hidden;
 }
 
-/* Decorative gradient orb */
-.auth-decoration {
-  position: absolute;
-  top: -80px;
-  right: -60px;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 122, 255, 0.06) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-/* Brand section */
+/* Brand section - extremely minimal */
 .auth-brand {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: var(--space-10);
+  margin-bottom: var(--space-8);
 }
 
 .auth-logo {
-  width: 72px;
-  height: 72px;
+  width: 60px;
+  height: 60px;
   background: var(--color-primary);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 28px;
-  font-weight: 800;
   margin-bottom: var(--space-4);
-  box-shadow: 0 4px 16px rgba(0, 122, 255, 0.25);
 }
 
 .auth-title {
-  font-size: var(--font-title-2);
+  font-size: var(--font-large-title);
   font-weight: var(--font-weight-bold);
   margin-bottom: var(--space-1);
   color: var(--text-primary);
 }
 
 .auth-subtitle {
-  font-size: var(--font-footnote);
+  font-size: var(--font-callout);
   color: var(--text-secondary);
   margin-bottom: 0;
+  text-align: center;
 }
 
 .auth-form {
   width: 100%;
-  max-width: min(320px, 100%);
+  max-width: 320px;
 }
 
 .auth-switch {
@@ -326,7 +247,7 @@
 
 .auth-switch a {
   color: var(--color-primary);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
 }
 
@@ -338,10 +259,10 @@
   min-height: 20px;
 }
 
-/* Demo badge */
+/* Demo badge - minimal style */
 .demo-badge {
-  background: var(--color-primary-light);
-  color: var(--color-primary);
+  background: var(--gray-100);
+  color: var(--text-secondary);
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
   font-size: var(--font-caption-1);
@@ -349,7 +270,7 @@
   margin-bottom: var(--space-6);
 }
 
-/* Footer tagline */
+/* Footer tagline - minimal */
 .auth-footer-text {
   position: absolute;
   bottom: var(--space-8);

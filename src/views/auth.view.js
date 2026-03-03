@@ -70,17 +70,15 @@ export function showAuthView(container) {
     }, isSignUp ? '已有账号？登录' : '没有账号？注册')
 
     const page = h('div', { className: 'auth-page' },
-      h('div', { className: 'auth-decoration' }),
       h('div', { className: 'auth-brand' },
         h('div', { className: 'auth-logo' },
-          createLucideIcon('activity', { size: 32, strokeWidth: 2, color: 'white' })
+          createLucideIcon('activity', { size: 28, strokeWidth: 2, color: 'white' })
         ),
         h('h1', { className: 'auth-title' }, '脉冲'),
         h('p', { className: 'auth-subtitle' }, 'AI 驱动的生活节律协调助手')
       ),
       form,
-      h('p', { className: 'auth-switch' }, switchLink),
-      h('p', { className: 'auth-footer-text' }, '让每一次脉冲，都恰到好处')
+      h('p', { className: 'auth-switch' }, switchLink)
     )
 
     container.appendChild(page)
@@ -92,10 +90,9 @@ export function showAuthView(container) {
 
 function showDemoAuth(container) {
   const page = h('div', { className: 'auth-page' },
-    h('div', { className: 'auth-decoration' }),
     h('div', { className: 'auth-brand' },
       h('div', { className: 'auth-logo' },
-        createLucideIcon('activity', { size: 32, strokeWidth: 2, color: 'white' })
+        createLucideIcon('activity', { size: 28, strokeWidth: 2, color: 'white' })
       ),
       h('h1', { className: 'auth-title' }, '脉冲'),
       h('p', { className: 'auth-subtitle' }, 'AI 驱动的生活节律协调助手')
@@ -114,8 +111,7 @@ function showDemoAuth(container) {
           navigate('/')
         }
       }, '开始体验')
-    ),
-    h('p', { className: 'auth-footer-text' }, '让每一次脉冲，都恰到好处')
+    )
   )
   container.appendChild(page)
   return { unmount() {} }
