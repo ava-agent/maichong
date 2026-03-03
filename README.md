@@ -26,7 +26,7 @@
 
 | Feature | Description |
 |---------|-------------|
-| **Bottom Tab Navigation** | 4-tab layout (Home, Timeline, AI Chat, Profile) inspired by Doubao |
+| **Apple/iOS Design** | Authentic iOS design system following Human Interface Guidelines |
 | **Collaborative Timelines** | Create shared timelines with your partner, family, or friends |
 | **AI Chat Assistant** | Tell the AI your plans in natural language and it creates events automatically |
 | **Realtime Sync** | Changes are synced instantly across all members via Supabase Realtime |
@@ -39,7 +39,7 @@
 | Layer | Technology |
 |-------|-----------|
 | Frontend | Vite + Vanilla JS (ES Modules) |
-| Styling | CSS Variables, system fonts |
+| Styling | CSS Variables, Apple/iOS design system |
 | Icons | [Lucide](https://lucide.dev) (linear stroke icons, tree-shakeable) |
 | Backend | [Supabase](https://supabase.com) (Auth + PostgreSQL + Realtime) |
 | AI | GLM-4 (OpenAI-compatible API) |
@@ -99,7 +99,26 @@ src/
 - **No framework** — Vanilla JS with a custom reactive store and hyperscript DOM helpers
 - **Three-layer architecture** — `lib/` (zero domain knowledge) → `services/` (business logic) → `views/` + `components/` (presentation)
 - **Graceful degradation** — Falls back to localStorage when Supabase is not configured
-- **Doubao-inspired UI** — Bottom tab bar, Lucide linear icons, clean white backgrounds
+- **Apple/iOS Design System** — Following Human Interface Guidelines with iOS System Blue (#007AFF), 8pt grid, SF Pro typography scale
+
+## Design System 设计系统
+
+Built following Apple Human Interface Guidelines:
+
+| Token | Value | Description |
+|-------|-------|-------------|
+| Primary Color | `#007AFF` | iOS System Blue |
+| Success | `#34C759` | iOS Green |
+| Warning | `#FF9500` | iOS Orange |
+| Danger | `#FF3B30` | iOS Red |
+| Tab Bar Height | `49px` | iOS standard |
+| Touch Target | `44px` | iOS minimum |
+| Spacing | 8pt grid | iOS spacing system |
+| Typography | SF Pro scale | Large Title → Caption |
+
+- **Imperceptible shadows** — Apple uses extremely subtle shadows
+- **iOS Messages bubbles** — Gray for AI, blue for user
+- **No decorative elements** — True minimalism per Apple philosophy
 
 ### Routes 路由
 
@@ -125,7 +144,7 @@ Tables: `profiles`, `timelines`, `timeline_members`, `events`, `chat_messages` �
 # Capture screenshots for docs
 node scripts/screenshot.mjs
 
-# Run E2E tests (64 tests)
+# Run E2E tests (62 tests)
 node scripts/test-e2e.mjs
 ```
 

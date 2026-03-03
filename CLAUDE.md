@@ -18,6 +18,7 @@ npm run preview      # Preview production build
 ## Tech Stack
 
 - **Frontend**: Vite + Vanilla JS (ES Modules) + CSS Variables
+- **Styling**: Apple/iOS design system (Human Interface Guidelines)
 - **Icons**: Lucide (linear stroke icons, tree-shakeable ESM imports)
 - **Backend**: Supabase (Auth + PostgreSQL + Realtime)
 - **AI**: GLM-4 (智谱AI, OpenAI-compatible API)
@@ -53,7 +54,7 @@ Copy `.env.example` to `.env` and fill in keys. The app works in demo mode (loca
 - `auth.view.js` — Login/signup or demo mode entry
 - `timeline-list.view.js` — Home page, list of timelines
 - `timeline.view.js` — Single timeline with pulse cards, FAB for event creation
-- `chat.view.js` — AI chat interface with capability cards (Doubao-style)
+- `chat.view.js` — AI chat interface with iOS Messages-style bubbles
 - `share-preview.view.js` — Share card preview with download
 - `profile.view.js` — User profile with settings and logout
 
@@ -71,9 +72,9 @@ Copy `.env.example` to `.env` and fill in keys. The app works in demo mode (loca
 - `toast.js` — Toast notifications (`showToast(msg, type)`)
 
 #### `styles/` — CSS modules imported via `styles/index.css`
-- `variables.css` — Design tokens: `--primary-color: #4C6EF5`, `--tab-bar-height: 52px`, shadows
-- `tab-bar.css` — Bottom tab navigation bar
-- `profile.css` — iOS-style grouped list for profile page
+- `variables.css` — Design tokens: iOS System Blue (`#007AFF`), 8pt spacing grid, typography scale
+- `tab-bar.css` — iOS-style bottom tab navigation (49px height)
+- `profile.css` — iOS Settings-style grouped list
 
 ### Routes
 
