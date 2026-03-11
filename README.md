@@ -82,6 +82,18 @@ Without `.env`, the app runs in **demo mode** using localStorage.
 
 ## Architecture 架构
 
+### System Architecture 系统架构
+
+<p align="center">
+  <img src="docs/diagrams/system-architecture.png" width="600" alt="System Architecture">
+</p>
+
+### Project Structure 项目结构
+
+<p align="center">
+  <img src="docs/diagrams/project-structure.png" width="600" alt="Project Structure">
+</p>
+
 ```
 src/
 ├── lib/            # Framework layer (store, router, DOM helpers)
@@ -134,9 +146,19 @@ Built following Apple Human Interface Guidelines:
 
 ## Database 数据库
 
+<p align="center">
+  <img src="docs/diagrams/database-schema.png" width="500" alt="Database Schema">
+</p>
+
 Schema: `supabase/migrations/001_initial_schema.sql`
 
 Tables: `profiles`, `timelines`, `timeline_members`, `events`, `chat_messages` — all with Row Level Security policies.
+
+### AI Chat Pipeline AI 聊天流水线
+
+<p align="center">
+  <img src="docs/diagrams/ai-chat-pipeline.png" width="600" alt="AI Chat Pipeline">
+</p>
 
 ## Development 开发
 

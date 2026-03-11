@@ -143,7 +143,11 @@ export async function getMembers(timelineId) {
 }
 
 export function generateInviteLink(timelineId) {
-  const timeline = store.getState().currentTimeline
+  // 优先根据 timelineId 查找，回退到 currentTimeline
+  const state = store.getState()
+  const timeline = timelineId
+    ? state.timelines.find(t => t.id === timelineId) || state.currentTimeline
+    : state.currentTimeline
   if (!timeline) return ''
   const base = window.location.origin + window.location.pathname
   return `${base}#/join/${timeline.invite_code}`

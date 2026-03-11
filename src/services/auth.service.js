@@ -2,10 +2,24 @@ import { getSupabase, isSupabaseConfigured } from '../lib/supabase.js'
 import { store } from '../lib/store.js'
 import { navigate } from '../router.js'
 
+// 演示模式：生成稳定的用户ID（基于email哈希，保证跨会话一致）
+function getDemoUserId(email) {
+  const stored = localStorage.getItem('maichong_demo_user')
+  if (stored) {
+    try {
+      const parsed = JSON.parse(stored)
+      if (parsed.email === email) return parsed.id
+    } catch {}
+  }
+  const id = crypto.randomUUID()
+  localStorage.setItem('maichong_demo_user', JSON.stringify({ email, id }))
+  return id
+}
+
 export async function signUp(email, password, displayName) {
   if (!isSupabaseConfigured()) {
-    // 演示模式：模拟登录
-    const mockUser = { id: crypto.randomUUID(), email, user_metadata: { display_name: displayName } }
+    // 演示模式：模拟登录（使用稳定ID）
+    const mockUser = { id: getDemoUserId(email), email, user_metadata: { display_name: displayName } }
     store.setState({ user: mockUser })
     navigate('/')
     return { user: mockUser, error: null }
@@ -27,7 +41,7 @@ export async function signUp(email, password, displayName) {
 
 export async function signIn(email, password) {
   if (!isSupabaseConfigured()) {
-    const mockUser = { id: crypto.randomUUID(), email, user_metadata: { display_name: email.split('@')[0] } }
+    const mockUser = { id: getDemoUserId(email), email, user_metadata: { display_name: email.split('@')[0] } }
     store.setState({ user: mockUser })
     navigate('/')
     return { user: mockUser, error: null }

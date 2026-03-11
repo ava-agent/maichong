@@ -113,6 +113,7 @@ function renderList(body, timelines) {
   })
   list.addEventListener('pointerup', () => clearTimeout(pressTimer))
   list.addEventListener('pointerleave', () => clearTimeout(pressTimer))
+  list.addEventListener('pointercancel', () => clearTimeout(pressTimer))
 
   body.appendChild(list)
 }

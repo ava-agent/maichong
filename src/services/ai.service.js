@@ -67,6 +67,8 @@ export async function sendChatMessage(timelineId, userMessage) {
       role: 'user',
       content: userMessage
     })
+  } else {
+    saveLocalChatMessages(timelineId, store.getState().chatMessages)
   }
 
   // 调用 AI
@@ -143,6 +145,8 @@ export async function sendChatMessage(timelineId, userMessage) {
       content: aiReply,
       metadata: aiAction ? { action: aiAction } : {}
     })
+  } else {
+    saveLocalChatMessages(timelineId, store.getState().chatMessages)
   }
 
   // 执行 AI 操作
@@ -163,10 +167,29 @@ async function executeAiAction(timelineId, action) {
   }
 }
 
+// 本地聊天记录存储
+const LOCAL_CHAT_KEY = 'maichong_chat_messages'
+
+function getLocalChatMessages(timelineId) {
+  try {
+    const all = JSON.parse(localStorage.getItem(LOCAL_CHAT_KEY) || '{}')
+    return all[timelineId] || []
+  } catch { return [] }
+}
+
+function saveLocalChatMessages(timelineId, messages) {
+  try {
+    const all = JSON.parse(localStorage.getItem(LOCAL_CHAT_KEY) || '{}')
+    all[timelineId] = messages.slice(-50) // 保留最近50条
+    localStorage.setItem(LOCAL_CHAT_KEY, JSON.stringify(all))
+  } catch {}
+}
+
 export async function loadChatHistory(timelineId) {
   if (!isSupabaseConfigured()) {
-    store.setState({ chatMessages: [] })
-    return []
+    const messages = getLocalChatMessages(timelineId)
+    store.setState({ chatMessages: messages })
+    return messages
   }
 
   const supabase = getSupabase()
