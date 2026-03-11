@@ -98,6 +98,16 @@ ALTER TABLE timeline_members ENABLE ROW LEVEL SECURITY;
 ALTER TABLE events ENABLE ROW LEVEL SECURITY;
 ALTER TABLE chat_messages ENABLE ROW LEVEL SECURITY;
 
+-- SECURITY DEFINER 函数：绕过 RLS 获取用户所属时间线 ID，避免循环引用
+CREATE OR REPLACE FUNCTION get_my_timeline_ids()
+RETURNS SETOF UUID
+LANGUAGE sql
+SECURITY DEFINER
+STABLE
+AS $$
+  SELECT timeline_id FROM timeline_members WHERE user_id = auth.uid()
+$$;
+
 -- profiles
 CREATE POLICY "profiles_select" ON profiles FOR SELECT TO authenticated USING (true);
 CREATE POLICY "profiles_update_own" ON profiles FOR UPDATE TO authenticated
@@ -105,7 +115,7 @@ CREATE POLICY "profiles_update_own" ON profiles FOR UPDATE TO authenticated
 
 -- timelines
 CREATE POLICY "timelines_select" ON timelines FOR SELECT TO authenticated
-  USING (owner_id = auth.uid() OR id IN (SELECT timeline_id FROM timeline_members WHERE user_id = auth.uid()));
+  USING (owner_id = auth.uid() OR id IN (SELECT get_my_timeline_ids()));
 CREATE POLICY "timelines_insert" ON timelines FOR INSERT TO authenticated
   WITH CHECK (owner_id = auth.uid());
 CREATE POLICY "timelines_update" ON timelines FOR UPDATE TO authenticated
@@ -115,7 +125,7 @@ CREATE POLICY "timelines_delete" ON timelines FOR DELETE TO authenticated
 
 -- timeline_members
 CREATE POLICY "members_select" ON timeline_members FOR SELECT TO authenticated
-  USING (timeline_id IN (SELECT timeline_id FROM timeline_members WHERE user_id = auth.uid()));
+  USING (timeline_id IN (SELECT get_my_timeline_ids()));
 CREATE POLICY "members_insert" ON timeline_members FOR INSERT TO authenticated
   WITH CHECK (user_id = auth.uid() OR timeline_id IN (SELECT id FROM timelines WHERE owner_id = auth.uid()));
 CREATE POLICY "members_delete" ON timeline_members FOR DELETE TO authenticated
@@ -123,19 +133,19 @@ CREATE POLICY "members_delete" ON timeline_members FOR DELETE TO authenticated
 
 -- events
 CREATE POLICY "events_select" ON events FOR SELECT TO authenticated
-  USING (timeline_id IN (SELECT timeline_id FROM timeline_members WHERE user_id = auth.uid()));
+  USING (timeline_id IN (SELECT get_my_timeline_ids()));
 CREATE POLICY "events_insert" ON events FOR INSERT TO authenticated
-  WITH CHECK (created_by = auth.uid() AND timeline_id IN (SELECT timeline_id FROM timeline_members WHERE user_id = auth.uid()));
+  WITH CHECK (created_by = auth.uid() AND timeline_id IN (SELECT get_my_timeline_ids()));
 CREATE POLICY "events_update" ON events FOR UPDATE TO authenticated
-  USING (timeline_id IN (SELECT timeline_id FROM timeline_members WHERE user_id = auth.uid()));
+  USING (timeline_id IN (SELECT get_my_timeline_ids()));
 CREATE POLICY "events_delete" ON events FOR DELETE TO authenticated
   USING (created_by = auth.uid() OR timeline_id IN (SELECT id FROM timelines WHERE owner_id = auth.uid()));
 
 -- chat_messages
 CREATE POLICY "chat_select" ON chat_messages FOR SELECT TO authenticated
-  USING (timeline_id IN (SELECT timeline_id FROM timeline_members WHERE user_id = auth.uid()));
+  USING (timeline_id IN (SELECT get_my_timeline_ids()));
 CREATE POLICY "chat_insert" ON chat_messages FOR INSERT TO authenticated
-  WITH CHECK (user_id = auth.uid() AND timeline_id IN (SELECT timeline_id FROM timeline_members WHERE user_id = auth.uid()));
+  WITH CHECK (user_id = auth.uid() AND timeline_id IN (SELECT get_my_timeline_ids()));
 
 -- ============================================
 -- Realtime 发布

@@ -101,14 +101,8 @@ function showDemoAuth(container) {
     h('div', { className: 'auth-form' },
       h('button', {
         className: 'btn btn-primary',
-        onClick: () => {
-          const user = {
-            id: crypto.randomUUID(),
-            email: 'demo@maichong.app',
-            user_metadata: { display_name: '演示用户' }
-          }
-          store.setState({ user })
-          navigate('/')
+        onClick: async () => {
+          await signIn('demo@maichong.app', 'demo123')
         }
       }, '开始体验')
     )
