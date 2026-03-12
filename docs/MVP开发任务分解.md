@@ -1,6 +1,6 @@
 # 脉冲项目 - MVP开发任务分解
 
-> **注意**: 此文档为早期规划阶段编写。MVP 已完成并部署至 https://maichong.vercel.app 。
+> **注意**: 此文档为早期规划阶段编写。MVP 已完成并部署至 https://maichong.rxcloud.group 。
 > 实际实现采用 Vanilla JS + Vite（而非 Flutter），但任务分解逻辑仍有参考价值。
 
 **基于**: 脉冲-行动计划.md 中的3周MVP计划

@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
-  <a href="https://maichong.vercel.app"><img src="https://img.shields.io/badge/demo-live-brightgreen" alt="Live Demo"></a>
+  <a href="https://maichong.rxcloud.group"><img src="https://img.shields.io/badge/demo-live-brightgreen" alt="Live Demo"></a>
   <img src="https://img.shields.io/badge/vanilla_js-ES2022-F7DF1E?logo=javascript&logoColor=black" alt="Vanilla JS">
   <img src="https://img.shields.io/badge/vite-6.x-646CFF?logo=vite&logoColor=white" alt="Vite">
   <img src="https://img.shields.io/badge/supabase-backend-3FCF8E?logo=supabase&logoColor=white" alt="Supabase">
@@ -15,7 +15,7 @@
 <p align="center"><strong>AI-native life rhythm coordination assistant for intimate groups.</strong></p>
 <p align="center">一款以 AI 为原生驱动、服务于亲密团体（情侣、家庭、好友）的生活节律协同助手。</p>
 
-<p align="center"><strong>Live Demo</strong>: <a href="https://maichong.vercel.app">https://maichong.vercel.app</a></p>
+<p align="center"><strong>Live Demo</strong>: <a href="https://maichong.rxcloud.group">https://maichong.rxcloud.group</a></p>
 
 ## Screenshots
 
