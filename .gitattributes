@@ -1,0 +1,6 @@
+# Override GitHub language detection
+# The main project is Vanilla JS + Vite, not Flutter/Dart
+maichong/** linguist-vendored
+设计稿1/** linguist-vendored
+设计稿2_交互稿/** linguist-vendored
+*.dart linguist-vendored

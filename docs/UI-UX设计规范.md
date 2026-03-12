@@ -1,6 +1,12 @@
 # 脉冲项目 - UI/UX设计规范
 
-**版本**: 1.0
+> **注意**: 此文档为早期 Flutter 版本设计规范。实际项目已采用 **Apple/iOS 设计系统 (Human Interface Guidelines)**。
+> 当前实现使用 iOS System Blue (#007AFF)、SF Pro 字体、8pt 网格系统。
+> 详见 [技术架构设计](技术架构设计.md) 和 `src/styles/variables.css`。
+
+![Design System](diagrams/design-system.png)
+
+**版本**: 1.0 (早期规划)
 **更新日期**: 2026年2月6日
 
 ---
