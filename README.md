@@ -90,6 +90,12 @@ Without `.env`, the app runs in **demo mode** using localStorage.
 
 ## Architecture 架构
 
+### Tech Stack Architecture 技术栈架构
+
+<p align="center">
+  <img src="docs/diagrams/tech-stack-architecture.png" width="700" alt="Tech Stack Architecture">
+</p>
+
 ### System Architecture 系统架构
 
 <p align="center">
@@ -120,6 +126,14 @@ src/
 - **Three-layer architecture** — `lib/` (zero domain knowledge) → `services/` (business logic) → `views/` + `components/` (presentation)
 - **Graceful degradation** — Falls back to localStorage when Supabase is not configured
 - **Apple/iOS Design System** — Following Human Interface Guidelines with iOS System Blue (#007AFF), 8pt grid, SF Pro typography scale
+
+### Reactive Store + Realtime Sync 响应式状态与实时同步
+
+<p align="center">
+  <img src="docs/diagrams/reactive-store-realtime.png" width="700" alt="Reactive Store + Realtime Sync">
+</p>
+
+Custom pub/sub reactive store with granular key-level subscriptions. Services write state via `setState(partial)`, views subscribe via `subscribe(key, cb)`. Supabase Realtime pushes `postgres_changes` events over WebSocket for multi-device sync. In demo mode, gracefully degrades to localStorage persistence.
 
 ## Design System 设计系统
 
@@ -162,11 +176,41 @@ Schema: `supabase/migrations/001_initial_schema.sql`
 
 Tables: `profiles`, `timelines`, `timeline_members`, `events`, `chat_messages` — all with Row Level Security policies.
 
+## AI Agent Design AI 智能体设计
+
+### Agent Architecture 智能体架构
+
+The AI assistant follows a **Structured Output + Action Execution** pattern (ReAct-lite: single-turn Reason→Act, no iterative tool loop).
+
+<p align="center">
+  <img src="docs/diagrams/ai-agent-architecture.png" width="700" alt="AI Agent Architecture">
+</p>
+
+**How it works:**
+
+1. **Context Assembly** — System prompt is dynamically built with timeline title, current events (with IDs), today's date, and a JSON output schema
+2. **LLM Reasoning** — GLM-4 (智谱AI, OpenAI-compatible API) receives system prompt + recent 10 conversation messages + user input
+3. **Structured Output** — LLM returns `{reply: string, action: object|null}` JSON
+4. **Action Execution** — If `action` is present, the executor dispatches to Event Service (`create_event` / `update_event` / `delete_event`)
+5. **Optimistic Update** — Store updates immediately, Supabase persists, Realtime syncs to all members
+
+### Agent Execution Flow 智能体执行流程
+
+<p align="center">
+  <img src="docs/diagrams/ai-agent-execution-flow.png" width="700" alt="AI Agent Execution Flow">
+</p>
+
+**Example flow:** User says "周六下午去喝咖啡" → AI Service builds context-aware prompt → GLM-4 reasons about date/time → returns structured JSON with `create_event` action → Event Service creates the event → Store updates → all members see the new event in realtime.
+
 ### AI Chat Pipeline AI 聊天流水线
 
 <p align="center">
   <img src="docs/diagrams/ai-chat-pipeline.png" width="600" alt="AI Chat Pipeline">
 </p>
+
+**Fallback paths:**
+- **No API Key** → Mock response engine with keyword matching (demo-friendly)
+- **No Supabase** → Chat history persisted to localStorage
 
 ## Development 开发
 
