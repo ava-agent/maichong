@@ -21,7 +21,7 @@ npm run preview      # Preview production build
 - **Styling**: Apple/iOS design system (Human Interface Guidelines)
 - **Icons**: Lucide (linear stroke icons, tree-shakeable ESM imports)
 - **Backend**: Supabase (Auth + PostgreSQL + Realtime)
-- **AI**: GLM-4 (智谱AI, OpenAI-compatible API)
+- **AI**: Ark CodingPlan (OpenAI-compatible via Vercel proxy)
 - **Screenshot**: modern-screenshot (for share card generation)
 
 ## Configuration
@@ -47,7 +47,7 @@ Copy `.env.example` to `.env` and fill in keys. The app works in demo mode (loca
 - `timeline.service.js` — Timeline CRUD, membership, invite-via-link
 - `event.service.js` — Pulse event CRUD, date grouping, formatting. Falls back to localStorage
 - `realtime.service.js` — Supabase Realtime subscriptions for events/members
-- `ai.service.js` — GLM-4 chat integration, system prompt builder, action executor. Falls back to mock responses
+- `ai.service.js` — Ark CodingPlan chat integration, system prompt builder, action executor. Falls back to mock responses
 - `share.service.js` — Share card DOM generation, screenshot export
 
 #### `views/` — Page-level views (mounted by router)

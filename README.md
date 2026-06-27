@@ -50,7 +50,7 @@
 | Styling | CSS Variables, Apple/iOS design system |
 | Icons | [Lucide](https://lucide.dev) (linear stroke icons, tree-shakeable) |
 | Backend | [Supabase](https://supabase.com) (Auth + PostgreSQL + Realtime) |
-| AI | GLM-4 (OpenAI-compatible API) |
+| AI | Ark CodingPlan (OpenAI-compatible via Vercel proxy) |
 | Screenshots | modern-screenshot |
 | Deployment | Vercel |
 
@@ -81,7 +81,12 @@ cp .env.example .env
 ```env
 VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=your-anon-key
-VITE_GLM4_API_KEY=your-glm4-api-key
+VITE_AI_CHAT_ENDPOINT=/api/chat
+
+# Server-side only in Vercel:
+# ARK_API_KEY=your_ark_api_key
+# ARK_BASE_URL=https://ark.cn-beijing.volces.com/api/coding/v3
+# ARK_CHAT_MODEL=doubao-seed-2-0-code-preview-260215
 ```
 
 Without `.env`, the app runs in **demo mode** using localStorage.
@@ -189,7 +194,7 @@ The AI assistant follows a **Structured Output + Action Execution** pattern (ReA
 **How it works:**
 
 1. **Context Assembly** — System prompt is dynamically built with timeline title, current events (with IDs), today's date, and a JSON output schema
-2. **LLM Reasoning** — GLM-4 (智谱AI, OpenAI-compatible API) receives system prompt + recent 10 conversation messages + user input
+2. **LLM Reasoning** — Ark CodingPlan (OpenAI-compatible via Vercel proxy) receives system prompt + recent 10 conversation messages + user input
 3. **Structured Output** — LLM returns `{reply: string, action: object|null}` JSON
 4. **Action Execution** — If `action` is present, the executor dispatches to Event Service (`create_event` / `update_event` / `delete_event`)
 5. **Optimistic Update** — Store updates immediately, Supabase persists, Realtime syncs to all members
@@ -200,7 +205,7 @@ The AI assistant follows a **Structured Output + Action Execution** pattern (ReA
   <img src="docs/diagrams/ai-agent-execution-flow.png" width="700" alt="AI Agent Execution Flow">
 </p>
 
-**Example flow:** User says "周六下午去喝咖啡" → AI Service builds context-aware prompt → GLM-4 reasons about date/time → returns structured JSON with `create_event` action → Event Service creates the event → Store updates → all members see the new event in realtime.
+**Example flow:** User says "周六下午去喝咖啡" → AI Service builds context-aware prompt → Ark CodingPlan reasons about date/time → returns structured JSON with `create_event` action → Event Service creates the event → Store updates → all members see the new event in realtime.
 
 ### AI Chat Pipeline AI 聊天流水线
 

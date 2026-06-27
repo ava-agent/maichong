@@ -39,7 +39,27 @@ ${eventsSummary}
 
 如果不涉及事件操作，action设为null。
 日期推断：如果用户说"这周六"，请根据今天日期推算。
+只返回 JSON，不要 Markdown 代码块或额外说明。
 回复使用中文。`
+}
+
+function parseModelJson(content) {
+  const trimmed = String(content || '').trim()
+  const withoutFence = trimmed
+    .replace(/^```(?:json)?\s*/i, '')
+    .replace(/\s*```$/i, '')
+    .trim()
+
+  try {
+    return JSON.parse(withoutFence)
+  } catch {
+    const start = withoutFence.indexOf('{')
+    const end = withoutFence.lastIndexOf('}')
+    if (start >= 0 && end > start) {
+      return JSON.parse(withoutFence.slice(start, end + 1))
+    }
+    throw new Error('Model response is not valid JSON')
+  }
 }
 
 export async function sendChatMessage(timelineId, userMessage) {
@@ -85,40 +105,41 @@ export async function sendChatMessage(timelineId, userMessage) {
 
   let aiReply, aiAction
 
-  if (config.glm4ApiKey) {
-    try {
-      const response = await fetch(config.glm4Endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${config.glm4ApiKey}`
-        },
-        body: JSON.stringify({
-          model: config.glm4Model,
-          messages,
-          temperature: 0.7,
-        })
+  try {
+    const response = await fetch(config.aiChatEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages,
+        temperature: 0.7,
       })
+    })
 
+    if (response.status === 404) {
+      // Vite dev server does not provide Vercel functions; keep local demo usable.
+      const mockResult = generateMockResponse(userMessage)
+      aiReply = mockResult.reply
+      aiAction = mockResult.action
+    } else if (!response.ok) {
+      const data = await response.json().catch(() => ({}))
+      throw new Error(data.error || `AI proxy error: ${response.status}`)
+    } else {
       const data = await response.json()
-      const content = data.choices?.[0]?.message?.content || ''
-
-      // 尝试解析 JSON
-      try {
-        const parsed = JSON.parse(content)
-        aiReply = parsed.reply || content
-        aiAction = parsed.action || null
-      } catch {
-        // 如果不是 JSON，直接使用文本
-        aiReply = content
-        aiAction = null
-      }
-    } catch (err) {
-      aiReply = '抱歉，AI 服务暂时不可用，请稍后再试。'
-      aiAction = null
+      const content = data.content || ''
+      const parsed = parseModelJson(content)
+      aiReply = parsed.reply || content
+      aiAction = parsed.action || null
     }
-  } else {
-    // 无 API Key 时使用模拟响应
+  } catch (err) {
+    if (err instanceof SyntaxError || err.message === 'Model response is not valid JSON') {
+      aiReply = '抱歉，AI 返回格式暂时无法识别，请换一种说法再试。'
+    } else {
+      aiReply = '抱歉，AI 服务暂时不可用，请稍后再试。'
+    }
+    aiAction = null
+  }
+
+  if (!aiReply) {
     const mockResult = generateMockResponse(userMessage)
     aiReply = mockResult.reply
     aiAction = mockResult.action
