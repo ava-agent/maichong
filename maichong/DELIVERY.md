@@ -161,9 +161,9 @@ SUPABASE_URL=your_supabase_url
 SUPABASE_ANON_KEY=your_supabase_anon_key
 
 # AI 服务
-DEEPSEEK_API_KEY=your_deepseek_key
+DEEPSEEK_API_KEY=<your_deepseek_key>
 # 或
-OPENAI_API_KEY=your_openai_key
+OPENAI_API_KEY=<your_openai_key>
 ```
 
 ### 本地模式

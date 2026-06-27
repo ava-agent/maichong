@@ -20,7 +20,7 @@ export function subscribeToTimeline(timelineId) {
     .channel(`events:${timelineId}`)
     .on('postgres_changes', {
       event: '*',
-      schema: 'public',
+      schema: 'maichong',
       table: 'events',
       filter: `timeline_id=eq.${timelineId}`
     }, (payload) => {
@@ -46,7 +46,7 @@ export function subscribeToTimeline(timelineId) {
     .channel(`members:${timelineId}`)
     .on('postgres_changes', {
       event: '*',
-      schema: 'public',
+      schema: 'maichong',
       table: 'timeline_members',
       filter: `timeline_id=eq.${timelineId}`
     }, (payload) => {

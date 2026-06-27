@@ -95,7 +95,7 @@ Schema in `supabase/migrations/001_initial_schema.sql`. Tables: `profiles`, `tim
 ## Deployment
 
 - **Frontend**: Vercel — https://maichong.rxcloud.group
-- **Backend**: Supabase (project `evljxrlicctchscyfuan`, region `ap-northeast-1`)
+- **Backend**: Supabase (project `lvazmokpqrywaysgxspg`, region `ap-northeast-1`)
 - **CI**: Push to `main` triggers Vercel auto-deploy
 
 ## Product Documents

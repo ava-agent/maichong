@@ -5,7 +5,9 @@ let supabase = null
 
 export function getSupabase() {
   if (!supabase && config.supabaseUrl && config.supabaseAnonKey) {
-    supabase = createClient(config.supabaseUrl, config.supabaseAnonKey)
+    supabase = createClient(config.supabaseUrl, config.supabaseAnonKey, {
+      db: { schema: 'maichong' },
+    })
   }
   return supabase
 }
