@@ -487,7 +487,6 @@ Future<ScheduleParseResult> parseSchedule(String userInput) async {
         },
       ],
       'temperature': 0.3,
-      'response_format': {'type': 'json_object'},
     },
   );
 
@@ -532,10 +531,13 @@ String _getSystemPrompt() {
       "content": "明天下午3点和小明在星巴克喝咖啡"
     }
   ],
-  "temperature": 0.3,
-  "response_format": {"type": "json_object"}
+  "temperature": 0.3
 }
 ```
+
+不要默认依赖 provider-specific 结构化输出请求字段。不同 OpenAI-compatible provider
+对结构化输出支持不完全一致；生产实现应在 system prompt 中明确“只返回 JSON”，并在服务端
+去除 Markdown code fence、提取首个 JSON object 后再做字段校验。
 
 **响应示例**:
 ```json
